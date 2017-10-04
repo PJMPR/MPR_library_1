@@ -5,7 +5,7 @@ public class Book {
 	private String title;
 	private String publisher;
 	private int year;
-	private boolean status;
+	private boolean isAvaiable;
 	
 	public int getId() {
 		return id;
@@ -39,11 +39,11 @@ public class Book {
 		this.year = year;
 	}
 	
-	public boolean isStatus() {
-		return status;
+	public boolean isAvaiable() {
+		return isAvaiable;
 	}
 	
-	public void setStatus(boolean status) {
-		this.status = status;
+	public void setisAvaiable(boolean isAvaiable) {
+		this.isAvaiable = isAvaiable;
 	}
 }
