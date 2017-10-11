@@ -1,10 +1,11 @@
 package library;
 
 import static org.junit.Assert.*;
-import library.domain.Person;
-import library.domain.checkers.PersonChecker;
 
 import org.junit.Test;
+
+import library.domain.Person;
+import library.domain.checkers.PersonChecker;
 
 public class PersonCheckerTest {
 
