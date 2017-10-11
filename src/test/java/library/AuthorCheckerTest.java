@@ -9,7 +9,7 @@ import library.domain.Person;
 import library.domain.checkers.AuthorChecker;
 import library.domain.checkers.PersonChecker;
 
-public class author_checker_test {
+public class AuthorCheckerTest {
 	@Test
 	public void check_test_if_author_has_name_etc () {
 		
