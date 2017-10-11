@@ -5,9 +5,7 @@ public class Person {
 	
 	private int id;
 	private String name;
-	private String surrname;
-	
-	
+	private String surname;
 	
 	public int getId() {
 		return id;
@@ -21,11 +19,11 @@ public class Person {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getSurrname() {
-		return surrname;
+	public String getSurname() {
+		return surname;
 	}
-	public void setSurrname(String surrname) {
-		this.surrname = surrname;
+	public void setSurname(String surrname) {
+		this.surname = surrname;
 	}
 	
 
