@@ -2,9 +2,7 @@ package library.domain;
 
 import java.util.Date;
 
-/**
- * Created by Kuba on 04.10.2017.
- */
+
 public class Reservation {
     private int id;
     private Date ReservationDate;
