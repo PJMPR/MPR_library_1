@@ -1,6 +1,10 @@
 package library;
 
 
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 import library.domain.User;
 import library.domain.checkers.UserChecker;
 
