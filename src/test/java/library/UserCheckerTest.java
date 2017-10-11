@@ -69,7 +69,7 @@ public void test_checker_should_check_if_user_have_email() {
 	boolean validResult = checker.isEmailValid(userWithEmail);
 	
 	
-	assertFalse("check user password failed", inValidResultForNull);
+	assertFalse("check user email failed", inValidResultForNull);
 	assertFalse(inValidResultForEmptyEmail);
 	assertTrue(validResult);
 	
