@@ -29,10 +29,10 @@ public class ReservationItemCheckerTest {
 		boolean validReservationItemBook=checker.isBookNull(rs);
 		boolean validReservationItemReservation=checker.isReservationNull(rs);
 		
-		assertTrue(invalidBook);
-		assertTrue(invalidReservation);
-		assertFalse(validReservationItemBook);
-		assertFalse(validReservationItemReservation);
+		assertFalse(invalidBook);
+		assertFalse(invalidReservation);
+		assertTrue(validReservationItemBook);
+		assertTrue(validReservationItemReservation);
 		
 		
 	}

@@ -7,9 +7,9 @@ import java.util.Date;
  */
 public class Reservation {
     private int id;
-    private Date ReservationDate;
-    private Date RetirvalDate;
-    private Date RealDate;
+    private Date reservationDate;
+    private Date retrievalDate;
+    private Date realDate;
 
     public int getId() {
         return id;
@@ -20,26 +20,26 @@ public class Reservation {
     }
 
     public Date getReservationDate() {
-        return ReservationDate;
+        return reservationDate;
     }
 
     public void setReservationDate(Date reservationDate) {
-        ReservationDate = reservationDate;
+        this.reservationDate = reservationDate;
     }
 
-    public Date getRetirvalDate() {
-        return RetirvalDate;
+    public Date getRetrievalDate() {
+        return retrievalDate;
     }
 
-    public void setRetirvalDate(Date retirvalDate) {
-        RetirvalDate = retirvalDate;
+    public void setRetrievalDate(Date retrievalDate) {
+        this.retrievalDate = retrievalDate;
     }
 
     public Date getRealDate() {
-        return RealDate;
+        return realDate;
     }
 
     public void setRealDate(Date realDate) {
-        RealDate = realDate;
+        this.realDate = realDate;
     }
 }
