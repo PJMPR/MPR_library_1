@@ -9,7 +9,7 @@ import library.domain.Person;
 import library.domain.checkers.BookChecker;
 import library.domain.checkers.PersonChecker;
 
-public class book_checker_test {
+public class BookCheckerTest {
 	@Test
 	public void check_test_if_book_has_name_Book_etc () {
 
