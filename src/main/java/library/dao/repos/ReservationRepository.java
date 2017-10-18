@@ -2,6 +2,7 @@ package library.dao.repos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -11,11 +12,21 @@ public class ReservationRepository {
 	
 	Connection connection;
 	
+	private boolean tableExists;
+	
 	public ReservationRepository(){
 		
 		try {
 			
 			connection = DriverManager.getConnection(url);
+			
+			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
+			
+			while(rs.next()){
+				if(rs.getString("TABLE_NAME").equalsIgnoreCase("reservation"))
+					tableExists=true;
+				
+			}
 		
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -33,7 +44,8 @@ public class ReservationRepository {
 		
 		try {
 			Statement createTable = connection.createStatement();
-			createTable.executeUpdate(sql);
+			if(!tableExists)
+				createTable.executeUpdate(sql);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
