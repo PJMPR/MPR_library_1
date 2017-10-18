@@ -2,21 +2,31 @@ package library.dao.repos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+
+import library.domain.User;
 
 public class UserRepository {
 String url = "jdbc:hsqldb:hsql://localhost/workdb";
 	
 	Connection connection;
 	private boolean tableExists;
+	PreparedStatement insert;
+	
 	
 	public UserRepository(){
 		
 		try {
 			
 			connection = DriverManager.getConnection(url);
+			
+			insert = connection.prepareStatement(""
+					+ "INSERT INTO user(login,password,email) VALUES (?,?,?)"
+					+ "");
 			
 ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
 			
@@ -29,7 +39,19 @@ ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
 			e.printStackTrace();
 		}
 	}
-	
+	public void add(User user){
+		
+		try {
+			insert.setString(1,user.getLogin());
+			insert.setString(2, user.getPassword());
+			insert.setString(3, user.getEmail());
+			insert.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		
+		
+	}
 	public void createTable(){
 		
 		String sql = "CREATE TABLE user("

@@ -7,9 +7,13 @@ import library.dao.repos.PersonRepository;
 import library.dao.repos.ReservationItemRepository;
 import library.dao.repos.ReservationRepository;
 import library.dao.repos.UserRepository;
+import library.domain.Address;
+import library.domain.Author;
+import library.domain.Book;
 import library.domain.Person;
 import library.domain.Reservation;
 import library.domain.ReservationItem;
+import library.domain.User;
 
 public class App 
 {
@@ -18,9 +22,7 @@ public class App
     	PersonRepository repository = new PersonRepository();
     	repository.createTable();
     	
-    	Person jan = new Person();
-    	jan.setName("jan");
-    	jan.setSurname("Kowalski");
+    	Person jan = repository.get(1);
     	
     	repository.add(jan);
     	
@@ -48,7 +50,7 @@ public class App
     	
     	UserRepository repositoryUser = new UserRepository();
     	repository.createTable();
-    	
+    	System.out.println(jan.getName() + " " + jan.getSurname()+" " +jan.getId());
         System.out.println( "koniec" );
     }
 }

@@ -18,6 +18,7 @@ public class PersonRepository {
 	private boolean tableExists;
 	
 	PreparedStatement insert;
+	PreparedStatement selectById;
 	
 	public PersonRepository(){
 		
@@ -28,6 +29,8 @@ public class PersonRepository {
 			insert = connection.prepareStatement(""
 					+ "INSERT INTO person(name, surname) VALUES (?,?)"
 					+ "");
+			selectById = connection.prepareStatement(""
+					+ "SELECT * FROM person WHERE id=?");
 			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
 			
 			while(rs.next()){
@@ -39,6 +42,25 @@ public class PersonRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Person get(int id){
+		
+		Person result = null;
+		try {
+			selectById.setInt(1, id);
+			ResultSet rs = selectById.executeQuery();
+			
+			while(rs.next()){
+				result = new Person();
+				result.setId(rs.getInt("id"));
+				result.setName(rs.getString("name"));
+				result.setSurname(rs.getString("surname"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	public void add(Person person){
