@@ -7,7 +7,9 @@ import library.dao.repos.PersonRepository;
 import library.dao.repos.ReservationItemRepository;
 import library.dao.repos.ReservationRepository;
 import library.dao.repos.UserRepository;
+import library.domain.Address;
 import library.domain.Person;
+import library.domain.User;
 
 public class App 
 {
@@ -35,11 +37,31 @@ public class App
     	
     	AuthorRepository authorRepository = new AuthorRepository();
     	authorRepository.createTable();
-    	AddressRepository repositoryAdderess = new AddressRepository();
-    	repository.createTable();
+    	
+    	
+    	AddressRepository repositoryAddress = new AddressRepository();
+    	repositoryAddress.createTable();
+    	
+    	Address address= new Address();
+    	address.setStreet("xxx ");
+    	address.setCity("yyyy");
+    	address.setPostCode("1111");
+    	address.setCountry("qqqq");
+    	address.setHouseNumber("20");
+    	address.setLocalNumber("21");
+    	address.setPhone("000 333 111");
+    	repositoryAddress.add(address);
     	
     	UserRepository repositoryUser = new UserRepository();
-    	repository.createTable();
+    	repositoryUser.createTable();
+    	User user = new User();
+    	user.setLogin("XXX");
+    	user.setPassword("qwerty");
+    	user.setEmail("xxx@.pjatk.pl");
+    	repositoryUser.add(user);
+    	
+    	
+    	
     	
         System.out.println( "koniec" );
     }
