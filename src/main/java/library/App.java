@@ -11,6 +11,8 @@ import library.domain.Address;
 import library.domain.Author;
 import library.domain.Book;
 import library.domain.Person;
+import library.domain.Reservation;
+import library.domain.ReservationItem;
 import library.domain.User;
 
 public class App 
@@ -22,8 +24,33 @@ public class App
     	
     	Person jan = repository.get(1);
     	
-    	System.out.println(jan.getName() + " " + jan.getSurname()+" " +jan.getId());
+    	repository.add(jan);
     	
+    	ReservationRepository reservationRepository = new ReservationRepository();
+    	reservationRepository.createTable();
+    	
+    	Reservation reserv = new Reservation();
+    	reserv.setReservationDate(null);
+    	reserv.setRetirvalDate(null);
+    	reserv.setRealDate(null);
+    	
+    	reservationRepository.add(reserv);
+    	
+    	ReservationItemRepository reservationItemRepository = new ReservationItemRepository();
+    	reservationItemRepository.createTable();
+    	
+    	
+    	BookRepository bookRepository = new BookRepository();
+    	bookRepository.createTable();
+    	
+    	AuthorRepository authorRepository = new AuthorRepository();
+    	authorRepository.createTable();
+    	AddressRepository repositoryAdderess = new AddressRepository();
+    	repository.createTable();
+    	
+    	UserRepository repositoryUser = new UserRepository();
+    	repository.createTable();
+    	System.out.println(jan.getName() + " " + jan.getSurname()+" " +jan.getId());
         System.out.println( "koniec" );
     }
 }
