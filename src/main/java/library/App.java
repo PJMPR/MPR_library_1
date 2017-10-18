@@ -24,11 +24,11 @@ public class App
     	
     	
     	
-    	ReservationRepository reservation_repository = new ReservationRepository();
-    	reservation_repository.createTable();
+    	ReservationRepository reservationRepository = new ReservationRepository();
+    	reservationRepository.createTable();
     	
-    	ReservationItemRepository reservation_item_repository = new ReservationItemRepository();
-    	reservation_item_repository.createTable();
+    	ReservationItemRepository reservationItemRepository = new ReservationItemRepository();
+    	reservationItemRepository.createTable();
     	
     	BookRepository bookRepository = new BookRepository();
     	bookRepository.createTable();
