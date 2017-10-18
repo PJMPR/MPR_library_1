@@ -8,6 +8,8 @@ import library.dao.repos.ReservationItemRepository;
 import library.dao.repos.ReservationRepository;
 import library.dao.repos.UserRepository;
 import library.domain.Person;
+import library.domain.Reservation;
+import library.domain.ReservationItem;
 
 public class App 
 {
@@ -22,13 +24,19 @@ public class App
     	
     	repository.add(jan);
     	
-    	
-    	
     	ReservationRepository reservationRepository = new ReservationRepository();
     	reservationRepository.createTable();
     	
+    	Reservation reserv = new Reservation();
+    	reserv.setReservationDate(null);
+    	reserv.setRetirvalDate(null);
+    	reserv.setRealDate(null);
+    	
+    	reservationRepository.add(reserv);
+    	
     	ReservationItemRepository reservationItemRepository = new ReservationItemRepository();
     	reservationItemRepository.createTable();
+    	
     	
     	BookRepository bookRepository = new BookRepository();
     	bookRepository.createTable();

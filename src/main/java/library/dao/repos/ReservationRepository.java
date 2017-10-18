@@ -1,10 +1,15 @@
 package library.dao.repos;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import library.domain.Person;
+import library.domain.Reservation;
 
 public class ReservationRepository {
 	
@@ -13,12 +18,17 @@ public class ReservationRepository {
 	Connection connection;
 	
 	private boolean tableExists;
+	PreparedStatement insert;
 	
 	public ReservationRepository(){
 		
 		try {
 			
 			connection = DriverManager.getConnection(url);
+			
+			insert = connection.prepareStatement(""
+					+ "INSERT INTO reservation(reservation_date, retrieval_date, real_date) VALUES (?,?,?)"
+					+ "");
 			
 			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
 			
@@ -31,6 +41,18 @@ public class ReservationRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void add(Reservation reservation ){
+		
+		try {
+			insert.setDate(1, (Date) reservation.getReservationDate());
+			insert.setDate(2, (Date) reservation.getRetirvalDate());
+			insert.setDate(3, (Date) reservation.getRealDate());
+			insert.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
 	}
 	
 	public void createTable(){
