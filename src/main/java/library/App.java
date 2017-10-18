@@ -7,6 +7,7 @@ import library.dao.repos.PersonRepository;
 import library.dao.repos.ReservationItemRepository;
 import library.dao.repos.ReservationRepository;
 import library.dao.repos.UserRepository;
+import library.domain.Person;
 
 public class App 
 {
@@ -14,6 +15,14 @@ public class App
     {
     	PersonRepository repository = new PersonRepository();
     	repository.createTable();
+    	
+    	Person jan = new Person();
+    	jan.setName("jan");
+    	jan.setSurname("Kowalski");
+    	
+    	repository.add(jan);
+    	
+    	
     	
     	ReservationRepository reservation_repository = new ReservationRepository();
     	reservation_repository.createTable();
