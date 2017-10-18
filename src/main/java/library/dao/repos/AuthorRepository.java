@@ -2,9 +2,12 @@ package library.dao.repos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import library.domain.Author;
 
 public class AuthorRepository {
 	
@@ -14,11 +17,17 @@ public class AuthorRepository {
 	
 	private boolean tableExists;
 	
+	PreparedStatement insert;
+	
 	public AuthorRepository(){
 		
 		try {
 			
 			connection = DriverManager.getConnection(url);
+			
+			insert = connection.prepareStatement(""
+					+ "INSERT INTO author(first_name, last_name) VALUES (?,?)"
+					+ "");
 			
 			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
 			
@@ -30,6 +39,19 @@ public class AuthorRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void add(Author author){
+		
+		try {
+			insert.setString(1, author.getFirst_name());
+			insert.setString(2, author.getLast_name());
+			insert.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		
+		
 	}
 	
 	public void createTable(){

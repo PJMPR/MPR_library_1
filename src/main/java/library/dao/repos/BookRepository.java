@@ -2,9 +2,12 @@ package library.dao.repos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import library.domain.Book;
 
 public class BookRepository {
 	
@@ -14,11 +17,17 @@ public class BookRepository {
 	
 	private boolean tableExists;
 	
+	PreparedStatement insert;
+	
 	public BookRepository(){
 		
 		try {
 			
 			connection = DriverManager.getConnection(url);
+			
+			insert = connection.prepareStatement(""
+					+ "INSERT INTO book(title, publisher, year, isAvailable) VALUES (?,?,?,?)"
+					+ "");
 			
 			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
 			
@@ -30,6 +39,21 @@ public class BookRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void add(Book book){
+		
+		try {
+			insert.setString(1, book.getTitle());
+			insert.setString(2, book.getPublisher());
+			insert.setInt(3, book.getYear());
+			insert.setBoolean(4, book.isAvailable());
+			insert.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		
+		
 	}
 	
 	public void createTable(){

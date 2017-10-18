@@ -7,6 +7,8 @@ import library.dao.repos.PersonRepository;
 import library.dao.repos.ReservationItemRepository;
 import library.dao.repos.ReservationRepository;
 import library.dao.repos.UserRepository;
+import library.domain.Author;
+import library.domain.Book;
 import library.domain.Person;
 
 public class App 
@@ -22,8 +24,6 @@ public class App
     	
     	repository.add(jan);
     	
-    	
-    	
     	ReservationRepository reservation_repository = new ReservationRepository();
     	reservation_repository.createTable();
     	
@@ -33,8 +33,21 @@ public class App
     	BookRepository bookRepository = new BookRepository();
     	bookRepository.createTable();
     	
+    	Book book = new Book();
+    	book.setTitle("Book1");
+    	book.setPublisher("Publisher1");
+    	book.setYear(2017);
+    	book.setisAvailable(true);
+    	
+    	bookRepository.add(book);
+    	
     	AuthorRepository authorRepository = new AuthorRepository();
     	authorRepository.createTable();
+    	
+    	Author author = new Author();
+    	author.setFirst_name("Name");
+    	author.setLast_name("Surname");
+    	
     	AddressRepository repositoryAdderess = new AddressRepository();
     	repository.createTable();
     	
