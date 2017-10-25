@@ -11,27 +11,14 @@ import java.util.List;
 
 import library.domain.Person;
 
-public class PersonRepository {
+public class PersonRepository extends RepositoryBase{
 
-	String url = "jdbc:hsqldb:hsql://localhost/workdb";
 	
-	Connection connection;
-	
-	private boolean tableExists;
-	
-	PreparedStatement insert;
-	PreparedStatement selectById;
-	PreparedStatement count;
-	PreparedStatement lastId;
-	PreparedStatement selectPage;
-	PreparedStatement delete;
-	PreparedStatement update;
-	
-	public PersonRepository(){
+	public PersonRepository(Connection connection){
 		
 		try {
 			
-			connection = DriverManager.getConnection(url);
+			this.connection = connection;
 		
 			insert = connection.prepareStatement(""
 					+ "INSERT INTO person(name, surname) VALUES (?,?)"
@@ -92,28 +79,6 @@ public class PersonRepository {
 		}
 	}
 	
-	public int count(){
-		try {
-			ResultSet rs = count.executeQuery();
-			while(rs.next()){
-				return rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
-	}
-	
-	public int lastId(){try {
-		ResultSet rs = lastId.executeQuery();
-		while(rs.next()){
-			return rs.getInt(1);
-		}
-	} catch (SQLException e) {
-		e.printStackTrace();
-	}
-	return 0;
-	}
 	
 	public List<Person> getPage(int offset, int limit){
 		List<Person> result = new ArrayList<Person>();

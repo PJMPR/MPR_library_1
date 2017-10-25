@@ -1,5 +1,9 @@
 package library;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 import library.dao.repos.AuthorRepository;
 import library.dao.repos.BookRepository;
 import library.dao.repos.AddressRepository;
@@ -17,9 +21,14 @@ import library.domain.User;
 
 public class App 
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) throws SQLException
     {
-    	PersonRepository repository = new PersonRepository();
+
+    	String url = "jdbc:hsqldb:hsql://localhost/workdb";
+    	
+    	Connection connection = DriverManager.getConnection(url);
+    	
+    	PersonRepository repository = new PersonRepository(connection);
     	repository.createTable();
     	
     	Person jan = new Person();
@@ -75,5 +84,7 @@ public class App
     	repository.createTable();
     	System.out.println(jan.getName() + " " + jan.getSurname()+" " +jan.getId());
         System.out.println( "koniec" );
+        
+        connection.close();
     }
 }
