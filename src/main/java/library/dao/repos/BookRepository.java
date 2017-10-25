@@ -11,6 +11,7 @@ import java.util.List;
 
 import library.domain.Author;
 import library.domain.Book;
+import library.domain.Person;
 
 public class BookRepository {
 	
@@ -25,6 +26,8 @@ public class BookRepository {
 	PreparedStatement count;
 	PreparedStatement lastId;
 	PreparedStatement selectPage;
+	PreparedStatement delete;
+	PreparedStatement update;
 	
 	public BookRepository(){
 		
@@ -34,6 +37,20 @@ public class BookRepository {
 			
 			insert = connection.prepareStatement(""
 					+ "INSERT INTO book(title, publisher, year, isAvailable) VALUES (?,?,?,?)"
+					+ "");
+			
+			count = connection.prepareStatement("SELECT COUNT(*) FROM book");
+			lastId = connection.prepareStatement("SELECT MAX(id) FROM book");
+			selectPage = connection.prepareStatement(""
+					+ "SELECT * FROM book OFFSET ? LIMIT ?"
+					+ "");
+			
+			delete = connection.prepareStatement(""
+					+ "DELETE FROM book WHERE id=?"
+					+ "");
+			
+			update = connection.prepareStatement(""
+					+ "UPDATE book SET (title, publisher, year, isAvailable) = (?,?, ?, ?) WHERE id=?"
 					+ "");
 			
 			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
@@ -47,6 +64,35 @@ public class BookRepository {
 			e.printStackTrace();
 		}
 	}
+	
+
+	public void update(Book book){
+		
+		try {
+			
+			update.setString(1, book.getTitle());
+			update.setString(2, book.getPublisher());
+			update.setInt(3, book.getYear());
+			update.setBoolean(4, book.isAvailable());
+			update.setInt(5, book.getId());
+			update.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void delete(Book book){
+		
+		try {
+			delete.setInt(1, book.getId());
+			delete.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	
 	public Book get(int id){
 		
