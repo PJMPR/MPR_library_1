@@ -16,25 +16,14 @@ import library.domain.Person;
 import library.domain.Reservation;
 import library.domain.ReservationItem;
 
-public class ReservationRepository {
+public class ReservationRepository extends RepositoryBase {
 	
-	String url = "jdbc:hsqldb:hsql://localhost/workdb";
-	
-	Connection connection;
-	
-	private boolean tableExists;
-	PreparedStatement insert;
-	PreparedStatement count;
-	PreparedStatement lastId;
-	PreparedStatement selectPage;
-	PreparedStatement delete;
-	PreparedStatement update;
 	
 	public ReservationRepository(){
 		
 		try {
 			
-			connection = DriverManager.getConnection(url);
+			this.connection = connection;
 			
 			insert = connection.prepareStatement(""
 					+ "INSERT INTO reservation(reservation_date, retrieval_date, real_date) VALUES (?,?,?)"
@@ -129,28 +118,6 @@ public class ReservationRepository {
 			e.printStackTrace();
 		}
 	}
-	public int lastId(){
-		try {
-			ResultSet rs = lastId.executeQuery();
-			while(rs.next()){
-			return rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			}
-		return 0;
-		}
-	public int count(){
-		try {
-			ResultSet rs = count.executeQuery();
-			while(rs.next()){
-			return rs.getInt(1);
-			}
-		} catch (SQLException e) {
-		e.printStackTrace();
-		}
-			return 0;
-		}
 	public List<Reservation> getPage(int offset, int limit){
 		List<Reservation> result = new ArrayList<Reservation>();
 		try {

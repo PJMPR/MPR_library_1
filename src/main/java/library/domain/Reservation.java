@@ -22,7 +22,7 @@ public class Reservation {
         return ReservationDate;
     }
 
-    public void setReservationDate(Date reservationDate) {
+    public void setReservationDate(Calendar reservationDate) {
         ReservationDate = reservationDate;
     }
 
@@ -30,7 +30,7 @@ public class Reservation {
         return RetirvalDate;
     }
 
-    public void setRetirvalDate(Date retirvalDate) {
+    public void setRetirvalDate(Calendar retirvalDate) {
         RetirvalDate = retirvalDate;
     }
 
@@ -38,7 +38,7 @@ public class Reservation {
         return RealDate;
     }
 
-    public void setRealDate(Date realDate) {
+    public void setRealDate(Calendar realDate) {
         RealDate = realDate;
     }
 }
