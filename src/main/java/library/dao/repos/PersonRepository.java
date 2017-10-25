@@ -19,6 +19,9 @@ public class PersonRepository {
 	
 	PreparedStatement insert;
 	PreparedStatement selectById;
+	PreparedStatement count;
+	PreparedStatement lastId;
+	PreparedStatement selectPage;
 	
 	public PersonRepository(){
 		

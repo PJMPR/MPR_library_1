@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import library.domain.Author;
+import library.domain.Person;
 
 public class AuthorRepository {
 	
@@ -18,6 +19,10 @@ public class AuthorRepository {
 	private boolean tableExists;
 	
 	PreparedStatement insert;
+	PreparedStatement selectById;
+	PreparedStatement count;
+	PreparedStatement lastId;
+	PreparedStatement selectPage;
 	
 	public AuthorRepository(){
 		
@@ -40,6 +45,50 @@ public class AuthorRepository {
 			e.printStackTrace();
 		}
 	}
+	
+	public Author get(int id){
+		
+		Author result = null;
+		try {
+			selectById.setInt(1, id);
+			ResultSet rs = selectById.executeQuery();
+			
+			while(rs.next()){
+				result = new Author();
+				result.setId(rs.getInt("id"));
+				result.setFirst_name(rs.getString("first_name"));
+				result.setLast_name(rs.getString("last_name"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public PreparedStatement count(int id){
+		
+		PreparedStatement result = null;
+		try {
+			connection = DriverManager.getConnection(url);
+			
+			count = connection.prepareStatement("select count(id) from author");
+			
+			result = count;
+			
+			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
+			
+			while(rs.next()){
+				if(rs.getString("TABLE_NAME").equalsIgnoreCase("author"))
+					tableExists=true;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
 	
 	public void add(Author author){
 		
