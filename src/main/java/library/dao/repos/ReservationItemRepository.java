@@ -14,7 +14,9 @@ import library.domain.Reservation;
 import library.domain.ReservationItem;
 
 public class ReservationItemRepository {
-	
+
+	// komentarz
+
 	String url = "jdbc:hsqldb:hsql://localhost/workdb";
 	
 	Connection connection;
