@@ -1,8 +1,6 @@
 package library.dao.repos;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,29 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import library.domain.Address;
-import library.domain.Person;
 
-
-public class AddressRepository {
-	String url = "jdbc:hsqldb:hsql://localhost/workdb";
+public class AddressRepository extends RepositoryBase {
 	
-	Connection connection;
-	
-	private boolean tableExists;
-	
-	PreparedStatement insert;
-	PreparedStatement selectById;
-	PreparedStatement count;
-	PreparedStatement lastId;
-	PreparedStatement selectPage;
-	PreparedStatement delete;
-	PreparedStatement update;
-	
-	public AddressRepository(){
+	public AddressRepository(Connection connection){
 		
 		try {
 			
-			connection = DriverManager.getConnection(url);
+			this.connection = connection;
 			
 			insert = connection.prepareStatement(""
 					+ "INSERT INTO address(street,city,postCode,country,houseNumber,localNumber,phone) VALUES (?,?,?,?,?,?,?)"
@@ -86,34 +69,6 @@ public class AddressRepository {
 			e.printStackTrace();
 		}
 		return result;
-	}
-	
-	public int count()
-	{
-		try {
-			ResultSet rs = count.executeQuery();
-			while(rs.next())
-			{
-				return rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
-	}
-	
-	public int lastId()
-	{
-		try {
-			ResultSet rs = count.executeQuery();
-			while(rs.next())
-			{
-				return rs.getInt("id");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
 	}
 	
 	public List<Address> selectPage(int offset, int limit)
@@ -202,7 +157,8 @@ public class AddressRepository {
 		
 		try {
 			Statement createTable = connection.createStatement();
-			createTable.executeUpdate(sql);
+			if (!tableExists)
+				createTable.executeUpdate(sql);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
