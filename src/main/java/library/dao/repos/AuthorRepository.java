@@ -25,6 +25,8 @@ public class AuthorRepository {
 	PreparedStatement count;
 	PreparedStatement lastId;
 	PreparedStatement selectPage;
+	PreparedStatement delete;
+	PreparedStatement update;
 	
 	public AuthorRepository(){
 		
@@ -34,6 +36,23 @@ public class AuthorRepository {
 			
 			insert = connection.prepareStatement(""
 					+ "INSERT INTO author(first_name, last_name) VALUES (?,?)"
+					+ "");
+			
+			selectById = connection.prepareStatement(""
+					+ "SELECT * FROM author WHERE id=?");
+			
+			count = connection.prepareStatement("SELECT COUNT(*) FROM author");
+			lastId = connection.prepareStatement("SELECT MAX(id) FROM author");
+			selectPage = connection.prepareStatement(""
+					+ "SELECT * FROM author OFFSET ? LIMIT ?"
+					+ "");
+			
+			delete = connection.prepareStatement(""
+					+ "DELETE FROM author WHERE id=?"
+					+ "");
+			
+			update = connection.prepareStatement(""
+					+ "UPDATE author SET (first_name, last_name) = (?,?) WHERE id=?"
 					+ "");
 			
 			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
@@ -47,6 +66,32 @@ public class AuthorRepository {
 			e.printStackTrace();
 		}
 	}
+	
+	public void update(Author author){
+		
+		try {
+			
+			update.setString(1, author.getFirst_name());
+			update.setString(2, author.getLast_name());
+			update.setInt(3, author.getId());
+			update.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void delete(Author author){
+		
+		try {
+			delete.setInt(1, author.getId());
+			delete.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	
 	public Author get(int id){
 		
