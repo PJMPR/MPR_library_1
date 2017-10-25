@@ -7,9 +7,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import library.domain.Person;
 import library.domain.Reservation;
+import library.domain.ReservationItem;
 
 public class ReservationRepository {
 	
@@ -19,6 +22,9 @@ public class ReservationRepository {
 	
 	private boolean tableExists;
 	PreparedStatement insert;
+	PreparedStatement count;
+	PreparedStatement lastId;
+	PreparedStatement selectPage;
 	
 	public ReservationRepository(){
 		
@@ -29,6 +35,19 @@ public class ReservationRepository {
 			insert = connection.prepareStatement(""
 					+ "INSERT INTO reservation(reservation_date, retrieval_date, real_date) VALUES (?,?,?)"
 					+ "");
+			count = connection.prepareStatement(""
+					+"SELECT COUNT(*) FROM reservation_item"
+					+""
+					);
+			lastId=connection.prepareCall(""
+					+"SELECT MAX(id) from reservation_item"
+					+""
+					);
+			selectPage = connection.prepareStatement(""
+					+ "SELECT * FROM person OFFSET ? LIMIT ?"
+					+ "");
+					
+			
 			
 			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
 			
@@ -73,5 +92,46 @@ public class ReservationRepository {
 			e.printStackTrace();
 		}
 	}
+	public int lastId(){
+		try {
+			ResultSet rs = lastId.executeQuery();
+			while(rs.next()){
+			return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			}
+		return 0;
+		}
+	public int count(){
+		try {
+			ResultSet rs = count.executeQuery();
+			while(rs.next()){
+			return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+		e.printStackTrace();
+		}
+			return 0;
+		}
+	public List<Reservation> getPage(int offset, int limit){
+		List<Reservation> result = new ArrayList<Reservation>();
+		try {
+			selectPage.setInt(1, offset);
+			selectPage.setInt(1, limit);
+			ResultSet rs = selectPage.executeQuery();
+			while(rs.next()){
+			Reservation p = new Reservation();
+			p.setId(rs.getInt("id"));
+			p.setReservationDate(rs.getDate("reservation_date"));
+			p.setRetirvalDate(rs.getDate("retrival_date"));
+			p.setRealDate(rs.getDate("real_date"));
+			result.add(p);
+		}
+		} catch (SQLException e) {
+		e.printStackTrace();
+		}
+			return result;
+		}
 	
 }

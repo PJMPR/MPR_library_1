@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import library.domain.Reservation;
 import library.domain.ReservationItem;
@@ -19,6 +21,9 @@ public class ReservationItemRepository {
 	
 	private boolean tableExists;
 	PreparedStatement insert;
+	PreparedStatement count;
+	PreparedStatement lastId;
+	PreparedStatement selectPage;
 	
 	public ReservationItemRepository(){
 		
@@ -29,7 +34,19 @@ public class ReservationItemRepository {
 			insert = connection.prepareStatement(""
 					+ "INSERT INTO reservation_item(reservation_id, book_id) VALUES (?,?)"
 					+ "");
-			
+			count = connection.prepareStatement(""
+					+"SELECT COUNT(*) FROM reservation_item"
+					+""
+					);
+			lastId=connection.prepareCall(""
+					+"SELECT MAX(id) from reservation_item"
+					+""
+					);
+			selectPage = connection.prepareStatement(""
+					+ "SELECT * FROM person OFFSET ? LIMIT ?"
+					+ "");
+					
+					
 			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
 			
 			while(rs.next()){
@@ -42,7 +59,46 @@ public class ReservationItemRepository {
 			e.printStackTrace();
 		}
 	}
-	
+	public int lastId(){
+		try {
+			ResultSet rs = lastId.executeQuery();
+			while(rs.next()){
+			return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			}
+		return 0;
+		}
+	public int count(){
+		try {
+			ResultSet rs = count.executeQuery();
+			while(rs.next()){
+			return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+		e.printStackTrace();
+		}
+			return 0;
+		}
+	public List<ReservationItem> getPage(int offset, int limit){
+		List<ReservationItem> result = new ArrayList<ReservationItem>();
+		try {
+			selectPage.setInt(1, offset);
+			selectPage.setInt(1, limit);
+			ResultSet rs = selectPage.executeQuery();
+			while(rs.next()){
+			ReservationItem p = new ReservationItem();
+			p.setId(rs.getInt("id"));
+			p.setReservationId(rs.getInt("reservation_id"));
+			p.setBookId(rs.getInt("book_id"));
+			result.add(p);
+		}
+		} catch (SQLException e) {
+		e.printStackTrace();
+		}
+			return result;
+		}
 	public void add(ReservationItem reservationItem ){
 		
 		try {

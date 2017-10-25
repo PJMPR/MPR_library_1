@@ -8,6 +8,8 @@ public class ReservationItem {
     private int id;
     private Reservation reservation;
     private Book book;
+    private int reservationId;
+    private int bookId;
 
     public int getId() {
         return id;
@@ -32,4 +34,22 @@ public class ReservationItem {
     public void setBook(Book book) {
         this.book = book;
     }
+
+	public int getReservationId() {
+		return reservationId;
+	}
+
+	public void setReservationId(int reservationId) {
+		this.reservationId = reservationId;
+	}
+
+	public int getBookId() {
+		return bookId;
+	}
+
+	public void setBookId(int bookId) {
+		this.bookId = bookId;
+	}
+  
+    
 }
