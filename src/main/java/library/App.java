@@ -68,8 +68,6 @@ public class App
     	
     	addressRepository.add(address);
     	
-    	int lastId = addressRepository.lastId();
-    	int count = addressRepository.count();
     	
     	System.out.println(lastId + " " + count);
     	

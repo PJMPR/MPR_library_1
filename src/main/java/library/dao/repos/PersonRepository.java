@@ -24,6 +24,8 @@ public class PersonRepository {
 	PreparedStatement count;
 	PreparedStatement lastId;
 	PreparedStatement selectPage;
+	PreparedStatement delete;
+	PreparedStatement update;
 	
 	public PersonRepository(){
 		
@@ -42,6 +44,15 @@ public class PersonRepository {
 			selectPage = connection.prepareStatement(""
 					+ "SELECT * FROM person OFFSET ? LIMIT ?"
 					+ "");
+			
+			delete = connection.prepareStatement(""
+					+ "DELETE FROM person WHERE id=?"
+					+ "");
+			
+			update = connection.prepareStatement(""
+					+ "UPDATE person SET (name,surname) = (?,?) WHERE id=?"
+					+ "");
+			
 			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
 			
 			while(rs.next()){
@@ -51,6 +62,32 @@ public class PersonRepository {
 			
 			
 		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void update(Person person){
+		
+		try {
+			
+			update.setString(1, person.getName());
+			update.setString(2, person.getSurname());
+			update.setInt(3, person.getId());
+			update.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void delete(Person person){
+		
+		try {
+			delete.setInt(1, person.getId());
+			delete.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
