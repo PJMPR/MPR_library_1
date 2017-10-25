@@ -6,7 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
+import library.domain.Author;
 import library.domain.Book;
 
 public class BookRepository {
@@ -18,6 +21,10 @@ public class BookRepository {
 	private boolean tableExists;
 	
 	PreparedStatement insert;
+	PreparedStatement selectById;
+	PreparedStatement count;
+	PreparedStatement lastId;
+	PreparedStatement selectPage;
 	
 	public BookRepository(){
 		
@@ -39,6 +46,69 @@ public class BookRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Book get(int id){
+		
+		Book result = null;
+		try {
+			selectById.setInt(1, id);
+			ResultSet rs = selectById.executeQuery();
+			
+			while(rs.next()){
+				result = new Book();
+				result.setId(rs.getInt("id"));
+				result.setTitle(rs.getString("title"));
+				result.setPublisher(rs.getString("publisher"));
+				result.setYear(rs.getInt("year"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public int count(){
+		try {
+			ResultSet rs = count.executeQuery();
+			while(rs.next()){
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int lastId(){try {
+		ResultSet rs = lastId.executeQuery();
+		while(rs.next()){
+			return rs.getInt(1);
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	return 0;
+	}
+	
+	public List<Book> getPage(int offset, int limit){
+		List<Book> result = new ArrayList<Book>();
+		try {
+			selectPage.setInt(1, offset);
+			selectPage.setInt(1, limit);
+			ResultSet rs = selectPage.executeQuery();
+			while(rs.next()){
+				Book p = new Book();
+				p.setId(rs.getInt("id"));
+				p.setTitle(rs.getString("title"));
+				p.setPublisher(rs.getString("publisher"));
+				p.setYear(rs.getInt("year"));
+				result.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	public void add(Book book){
