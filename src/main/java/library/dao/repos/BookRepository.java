@@ -13,27 +13,13 @@ import library.domain.Author;
 import library.domain.Book;
 import library.domain.Person;
 
-public class BookRepository {
+public class BookRepository extends RepositoryBase{
 	
-	String url = "jdbc:hsqldb:hsql://localhost/workdb";
-	
-	Connection connection;
-	
-	private boolean tableExists;
-	
-	PreparedStatement insert;
-	PreparedStatement selectById;
-	PreparedStatement count;
-	PreparedStatement lastId;
-	PreparedStatement selectPage;
-	PreparedStatement delete;
-	PreparedStatement update;
-	
-	public BookRepository(){
+	public BookRepository(Connection connection){
 		
 		try {
 			
-			connection = DriverManager.getConnection(url);
+			this.connection = connection;
 			
 			insert = connection.prepareStatement(""
 					+ "INSERT INTO book(title, publisher, year, isAvailable) VALUES (?,?,?,?)"
@@ -113,29 +99,7 @@ public class BookRepository {
 		}
 		return result;
 	}
-	
-	public int count(){
-		try {
-			ResultSet rs = count.executeQuery();
-			while(rs.next()){
-				return rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
-	}
-	
-	public int lastId(){try {
-		ResultSet rs = lastId.executeQuery();
-		while(rs.next()){
-			return rs.getInt(1);
-		}
-	} catch (SQLException e) {
-		e.printStackTrace();
-	}
-	return 0;
-	}
+
 	
 	public List<Book> getPage(int offset, int limit){
 		List<Book> result = new ArrayList<Book>();
