@@ -12,25 +12,17 @@ import java.util.List;
 import library.domain.Person;
 import library.domain.User;
 
-public class UserRepository {
-String url = "jdbc:hsqldb:hsql://localhost/workdb";
+public class UserRepository extends RepositoryBase{
+
+
+	public UserRepository(Connection connection){
 	
-	Connection connection;
-	private boolean tableExists;
-	
-	PreparedStatement insert;
-	PreparedStatement selectById;
-	PreparedStatement lastId;
-	PreparedStatement count;
-	PreparedStatement selectPage;
-	PreparedStatement delete;
-	PreparedStatement update;
-	
-	public UserRepository(){
+
 		
 		try {
+				this.connection= connection;
 			
-			connection = DriverManager.getConnection(url);
+			
 			
 			insert = connection.prepareStatement(""
 					+ "INSERT INTO user(login,password,email) VALUES (?,?,?)"
