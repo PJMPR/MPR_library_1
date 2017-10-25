@@ -23,6 +23,8 @@ String url = "jdbc:hsqldb:hsql://localhost/workdb";
 	PreparedStatement lastId;
 	PreparedStatement count;
 	PreparedStatement selectPage;
+	PreparedStatement delete;
+	PreparedStatement update;
 	
 	public UserRepository(){
 		
@@ -42,7 +44,13 @@ String url = "jdbc:hsqldb:hsql://localhost/workdb";
 			selectPage = connection.prepareStatement(""
 					+ "SELECT * FROM User OFFSET ? LIMIT ?"
 					+ "");
+			delete = connection.prepareStatement(""
+					+ "DELETE FROM user WHERE id=?"
+					+ "");
 			
+			update = connection.prepareStatement(""
+					+ "UPDATE user SET (login,password,email) = (?,?,?) WHERE id=?"
+					+ "");
 					
 			
 			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
@@ -123,6 +131,30 @@ String url = "jdbc:hsqldb:hsql://localhost/workdb";
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	public void update(User user){
+		
+		try {
+			update.setInt(1, user.getId());
+			update.setString(2, user.getLogin());
+			update.setString(3, user.getPassword());
+			update.setString(4, user.getEmail());
+	
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void delete(User user){
+		
+		try {
+			delete.setInt(1, user.getId());
+			delete.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
