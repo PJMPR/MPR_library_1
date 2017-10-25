@@ -6,8 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import library.domain.Author;
+import library.domain.Person;
 
 public class AuthorRepository {
 	
@@ -18,6 +21,10 @@ public class AuthorRepository {
 	private boolean tableExists;
 	
 	PreparedStatement insert;
+	PreparedStatement selectById;
+	PreparedStatement count;
+	PreparedStatement lastId;
+	PreparedStatement selectPage;
 	
 	public AuthorRepository(){
 		
@@ -41,6 +48,68 @@ public class AuthorRepository {
 		}
 	}
 	
+	public Author get(int id){
+		
+		Author result = null;
+		try {
+			selectById.setInt(1, id);
+			ResultSet rs = selectById.executeQuery();
+			
+			while(rs.next()){
+				result = new Author();
+				result.setId(rs.getInt("id"));
+				result.setFirst_name(rs.getString("first_name"));
+				result.setLast_name(rs.getString("last_name"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public int count(){
+		try {
+			ResultSet rs = count.executeQuery();
+			while(rs.next()){
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int lastId(){try {
+		ResultSet rs = lastId.executeQuery();
+		while(rs.next()){
+			return rs.getInt(1);
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	return 0;
+	}
+	
+	public List<Author> getPage(int offset, int limit){
+		List<Author> result = new ArrayList<Author>();
+		try {
+			selectPage.setInt(1, offset);
+			selectPage.setInt(1, limit);
+			ResultSet rs = selectPage.executeQuery();
+			while(rs.next()){
+				Author p = new Author();
+				p.setId(rs.getInt("id"));
+				p.setFirst_name(rs.getString("name"));
+				p.setLast_name(rs.getString("surname"));
+				result.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+		
 	public void add(Author author){
 		
 		try {

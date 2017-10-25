@@ -25,7 +25,6 @@ public class PersonRepository {
 	PreparedStatement lastId;
 	PreparedStatement selectPage;
 	
-	
 	public PersonRepository(){
 		
 		try {
@@ -126,8 +125,6 @@ public class PersonRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} 
-		
-		
 	}
 	
 	public void createTable(){
