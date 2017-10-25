@@ -1,13 +1,14 @@
 package library.domain;
 
+import java.util.Calendar;
 import java.util.Date;
 
 
 public class Reservation {
     private int id;
-    private Date ReservationDate;
-    private Date RetirvalDate;
-    private Date RealDate;
+    private Calendar ReservationDate;
+    private Calendar RetirvalDate;
+    private Calendar RealDate;
 
     public int getId() {
         return id;
@@ -17,7 +18,7 @@ public class Reservation {
         this.id = id;
     }
 
-    public Date getReservationDate() {
+    public Calendar getReservationDate() {
         return ReservationDate;
     }
 
@@ -25,7 +26,7 @@ public class Reservation {
         ReservationDate = reservationDate;
     }
 
-    public Date getRetirvalDate() {
+    public Calendar getRetirvalDate() {
         return RetirvalDate;
     }
 
@@ -33,7 +34,7 @@ public class Reservation {
         RetirvalDate = retirvalDate;
     }
 
-    public Date getRealDate() {
+    public Calendar getRealDate() {
         return RealDate;
     }
 
