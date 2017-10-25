@@ -125,8 +125,6 @@ public class PersonRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} 
-		
-		
 	}
 	
 	public void createTable(){
