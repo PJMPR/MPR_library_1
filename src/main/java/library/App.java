@@ -53,8 +53,25 @@ public class App
     	
     	AuthorRepository authorRepository = new AuthorRepository();
     	authorRepository.createTable();
-    	AddressRepository repositoryAdderess = new AddressRepository();
-    	repository.createTable();
+    	
+    	AddressRepository addressRepository = new AddressRepository();
+    	addressRepository.createTable();
+    	
+    	Address address = new Address();
+    	address.setStreet("ABC");
+    	address.setPostCode("CDF");
+    	address.setPhone("123-456-789");
+    	address.setLocalNumber("678");
+    	address.setCountry("ASGAS");
+    	address.setHouseNumber("346");
+    	address.setCity("adgasdg");
+    	
+    	addressRepository.add(address);
+    	
+    	int lastId = addressRepository.lastId();
+    	int count = addressRepository.count();
+    	
+    	System.out.println(lastId + " " + count);
     	
     	UserRepository repositoryUser = new UserRepository();
     	repository.createTable();
