@@ -22,9 +22,17 @@ public class App
     	PersonRepository repository = new PersonRepository();
     	repository.createTable();
     	
-    	Person jan = repository.get(1);
+    	Person jan = new Person();
+    	jan.setName("JAN");
+    	jan.setSurname("kowalski");
     	
     	repository.add(jan);
+    	
+    	int lastId = repository.lastId();
+    	int count = repository.count();
+    	
+    	System.out.println(lastId + " " +  count);
+    	
     	
     	ReservationRepository reservationRepository = new ReservationRepository();
     	reservationRepository.createTable();

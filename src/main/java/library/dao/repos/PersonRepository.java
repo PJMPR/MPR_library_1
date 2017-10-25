@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import library.domain.Person;
 
@@ -34,6 +36,12 @@ public class PersonRepository {
 					+ "");
 			selectById = connection.prepareStatement(""
 					+ "SELECT * FROM person WHERE id=?");
+			
+			count = connection.prepareStatement("SELECT COUNT(*) FROM person");
+			lastId = connection.prepareStatement("SELECT MAX(id) FROM person");
+			selectPage = connection.prepareStatement(""
+					+ "SELECT * FROM person OFFSET ? LIMIT ?"
+					+ "");
 			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
 			
 			while(rs.next()){
@@ -45,6 +53,48 @@ public class PersonRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public int count(){
+		try {
+			ResultSet rs = count.executeQuery();
+			while(rs.next()){
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int lastId(){try {
+		ResultSet rs = lastId.executeQuery();
+		while(rs.next()){
+			return rs.getInt(1);
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	return 0;
+	}
+	
+	public List<Person> getPage(int offset, int limit){
+		List<Person> result = new ArrayList<Person>();
+		try {
+			selectPage.setInt(1, offset);
+			selectPage.setInt(1, limit);
+			ResultSet rs = selectPage.executeQuery();
+			while(rs.next()){
+				Person p = new Person();
+				p.setId(rs.getInt("id"));
+				p.setName(rs.getString("name"));
+				p.setSurname(rs.getString("surname"));
+				result.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	public Person get(int id){
