@@ -11,6 +11,7 @@ import library.dao.repos.PersonRepository;
 import library.dao.repos.ReservationItemRepository;
 import library.dao.repos.ReservationRepository;
 import library.dao.repos.UserRepository;
+import library.daor.repos.examples.BookRepositoryExample;
 import library.daor.repos.examples.PersonRepositoryExample;
 import library.domain.Address;
 import library.domain.Author;
@@ -30,6 +31,7 @@ public class App
     	Connection connection = DriverManager.getConnection(url);
     	
     	PersonRepositoryExample.run(connection);
+    	BookRepositoryExample.run(connection);
     	
     	ReservationRepository reservationRepository = new ReservationRepository();
     	reservationRepository.createTable();
@@ -43,10 +45,6 @@ public class App
     	
     	ReservationItemRepository reservationItemRepository = new ReservationItemRepository();
     	reservationItemRepository.createTable();
-    	
-    	
-    	BookRepository bookRepository = new BookRepository(connection);
-    	bookRepository.createTable();
     	
     	AuthorRepository authorRepository = new AuthorRepository(connection);
     	authorRepository.createTable();
