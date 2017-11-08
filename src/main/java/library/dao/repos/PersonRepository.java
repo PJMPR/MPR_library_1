@@ -12,45 +12,9 @@ import java.util.List;
 import library.domain.Person;
 
 public class PersonRepository extends RepositoryBase{
-
 	
 	public PersonRepository(Connection connection){
-		
-		try {
-			
-			this.connection = connection;
-		
-			insert = connection.prepareStatement(""
-					+ "INSERT INTO person(name, surname) VALUES (?,?)"
-					+ "");
-			selectById = connection.prepareStatement(""
-					+ "SELECT * FROM person WHERE id=?");
-			
-			count = connection.prepareStatement("SELECT COUNT(*) FROM person");
-			lastId = connection.prepareStatement("SELECT MAX(id) FROM person");
-			selectPage = connection.prepareStatement(""
-					+ "SELECT * FROM person OFFSET ? LIMIT ?"
-					+ "");
-			
-			delete = connection.prepareStatement(""
-					+ "DELETE FROM person WHERE id=?"
-					+ "");
-			
-			update = connection.prepareStatement(""
-					+ "UPDATE person SET (name,surname) = (?,?) WHERE id=?"
-					+ "");
-			
-			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
-			
-			while(rs.next()){
-				if(rs.getString("TABLE_NAME").equalsIgnoreCase("person"))
-					tableExists=true;
-			}
-			
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		super(connection);
 	}
 	
 	
@@ -146,6 +110,23 @@ public class PersonRepository extends RepositoryBase{
 			e.printStackTrace();
 		}
 	}
-	
+
+	protected String getUpdateQuerySql() {
+		return ""
+				+ "UPDATE person SET (name,surname) = (?,?) WHERE id=?"
+				+ "";
+	}
+
+	protected String getInsertQuerySql() {
+		return ""
+				+ "INSERT INTO person(name, surname) VALUES (?,?)"
+				+ "";
+	}
+
+
+	@Override
+	protected String getTableName() {
+		return "person";
+	}
 	
 }
