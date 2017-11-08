@@ -12,40 +12,9 @@ import library.domain.Address;
 public class AddressRepository extends RepositoryBase {
 	
 	public AddressRepository(Connection connection){
+		super(connection);
+	}	
 		
-		try {
-			
-			this.connection = connection;
-			
-			insert = connection.prepareStatement(""
-					+ "INSERT INTO address(street,city,postCode,country,houseNumber,localNumber,phone) VALUES (?,?,?,?,?,?,?)"
-					+ "");
-			
-			selectById = connection.prepareStatement("SELECT * FROM address WHERE id=?");
-			
-			count = connection.prepareStatement("SELECT COUNT(*) FROM address");
-			
-			lastId = connection.prepareStatement("SELECT MAX(id) FROM address ");
-			
-			selectPage = connection.prepareStatement("SELECT * FROM address OFFSET ? LIMIT ?");
-			
-			delete = connection.prepareStatement("DELETE FROM address WHERE id=?");
-			
-			update = connection.prepareStatement("" 
-					+ "UPDATE address SET (street,city,postCode,country,houseNumber,localNumber,phone) = (?,?,?,?,?,?,?) "
-					+ "WHERE id=?");
-			
-			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
-			
-			while(rs.next()){
-				if(rs.getString("TABLE_NAME").equalsIgnoreCase("address"))
-					tableExists=true;
-			}
-		
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public Address selectById(int id)
 	{
@@ -163,6 +132,32 @@ public class AddressRepository extends RepositoryBase {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+
+
+	@Override
+	protected String getUpdateQuerySql() {
+		return ""
+				+ "UPDATE address SET (street,city,postCode,country,houseNumber,localNumber,phone) = (?,?,?,?,?,?,?) WHERE id=?"
+				+ "";
+	}
+
+
+
+	@Override
+	protected String getInsertQuerySql() {
+		return ""
+				+ "INSERT INTO address (street,city,postCode,country,houseNumber,localNumber,phone) = (?,?,?,?,?,?,?)"
+				+ "";
+	}
+
+
+
+	@Override
+	protected String getTableName() {
+		// TODO Auto-generated method stub
+		return "address";
 	}
 	
 	
