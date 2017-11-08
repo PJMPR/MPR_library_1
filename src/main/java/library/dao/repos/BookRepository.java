@@ -1,17 +1,15 @@
 package library.dao.repos;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import library.dao.mappers.IMapper;
 import library.domain.Book;
 
 
 public class BookRepository extends RepositoryBase<Book>{
 	
-	public BookRepository(Connection connection){
-			super(connection);
+	public BookRepository(Connection connection, IMapper<Book> mapper){
+			super(connection, mapper);
 	}
 	
 	@Override
@@ -34,28 +32,28 @@ public class BookRepository extends RepositoryBase<Book>{
 				+ ")";
 	}
 	@Override
+	protected void setUpdate(Book book) throws SQLException {
+		update.setString(1, book.getTitle());
+		update.setString(2, book.getPublisher());
+		update.setInt(3, book.getYear());
+		update.setBoolean(4, book.isAvailable());
+		update.setInt(5, book.getId());
+	}
+	
+	@Override
+	protected void setInsert(Book book) throws SQLException {
+		insert.setString(1, book.getTitle());
+		insert.setString(2, book.getPublisher());
+		insert.setInt(3, book.getYear());
+		insert.setBoolean(4, book.isAvailable());
+	}
+	
+	@Override
 	protected String getTableName() {
 		return "person";
 	}
-
 	
 	
-	
-	public void update(Book book){
-		
-		try {
-			
-			update.setString(1, book.getTitle());
-			update.setString(2, book.getPublisher());
-			update.setInt(3, book.getYear());
-			update.setBoolean(4, book.isAvailable());
-			update.setInt(5, book.getId());
-			update.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	
 	public void delete(Book book){
 		
@@ -69,61 +67,12 @@ public class BookRepository extends RepositoryBase<Book>{
 	}
 	
 	
-	public Book get(int id){
-		
-		Book result = null;
-		try {
-			selectById.setInt(1, id);
-			ResultSet rs = selectById.executeQuery();
-			
-			while(rs.next()){
-				result = new Book();
-				result.setId(rs.getInt("id"));
-				result.setTitle(rs.getString("title"));
-				result.setPublisher(rs.getString("publisher"));
-				result.setYear(rs.getInt("year"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
+
 
 	
-	public List<Book> getPage(int offset, int limit){
-		List<Book> result = new ArrayList<Book>();
-		try {
-			selectPage.setInt(1, offset);
-			selectPage.setInt(1, limit);
-			ResultSet rs = selectPage.executeQuery();
-			while(rs.next()){
-				Book p = new Book();
-				p.setId(rs.getInt("id"));
-				p.setTitle(rs.getString("title"));
-				p.setPublisher(rs.getString("publisher"));
-				p.setYear(rs.getInt("year"));
-				result.add(p);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
+
 	
-	public void add(Book book){
-		
-		try {
-			insert.setString(1, book.getTitle());
-			insert.setString(2, book.getPublisher());
-			insert.setInt(3, book.getYear());
-			insert.setBoolean(4, book.isAvailable());
-			insert.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} 
-		
-		
-	}
+
 	
 	
 	
