@@ -16,41 +16,8 @@ import library.domain.Person;
 public class BookRepository extends RepositoryBase{
 	
 	public BookRepository(Connection connection){
-		
-		try {
-			
-			this.connection = connection;
-			
-			insert = connection.prepareStatement(""
-					+ "INSERT INTO book(title, publisher, year, isAvailable) VALUES (?,?,?,?)"
-					+ "");
-			
-			count = connection.prepareStatement("SELECT COUNT(*) FROM book");
-			lastId = connection.prepareStatement("SELECT MAX(id) FROM book");
-			selectPage = connection.prepareStatement(""
-					+ "SELECT * FROM book OFFSET ? LIMIT ?"
-					+ "");
-			
-			delete = connection.prepareStatement(""
-					+ "DELETE FROM book WHERE id=?"
-					+ "");
-			
-			update = connection.prepareStatement(""
-					+ "UPDATE book SET (title, publisher, year, isAvailable) = (?,?, ?, ?) WHERE id=?"
-					+ "");
-			
-			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
-			
-			while(rs.next()){
-				if(rs.getString("TABLE_NAME").equalsIgnoreCase("book"))
-					tableExists=true;
-			}
-		
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+			super(connection);
 	}
-	
 
 	public void update(Book book){
 		
@@ -155,5 +122,21 @@ public class BookRepository extends RepositoryBase{
 			e.printStackTrace();
 		}
 	}
+	
+	protected String getInsertQuerySql() {
+		return ""
+				+ "INSERT INTO book(title, publisher, year, isAvailable) VALUES (?,?,?,?)"
+				+ "";
+	}
+	protected String getUpdateQuerySql() {
+		return ""
+				+ "UPDATE book SET (title, publisher, year, isAvailable) = (?,?, ?, ?) WHERE id=?"
+				+ "";
+	}
+	@Override
+	protected String getTableName() {
+		return "person";
+	}
+	
 
 }
