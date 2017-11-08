@@ -10,7 +10,7 @@ public class ReservationRepositoryExample
 	
 	public static void run(Connection connection)
 	{
-		ReservationRepository reservationRepository = new ReservationRepository();
+		ReservationRepository reservationRepository = new ReservationRepository(connection);
 		reservationRepository.createTable();
 		
 		Reservation reserv = new Reservation();
