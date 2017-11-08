@@ -4,21 +4,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import library.dao.repos.AddressRepository;
 import library.dao.repos.AuthorRepository;
 import library.dao.repos.BookRepository;
-import library.dao.repos.AddressRepository;
-import library.dao.repos.PersonRepository;
-import library.dao.repos.ReservationItemRepository;
-import library.dao.repos.ReservationRepository;
-import library.dao.repos.UserRepository;
 import library.daor.repos.examples.PersonRepositoryExample;
+import library.daor.repos.examples.ReservationItemRepositoryExample;
+import library.daor.repos.examples.ReservationRepositoryExample;
 import library.domain.Address;
-import library.domain.Author;
-import library.domain.Book;
-import library.domain.Person;
-import library.domain.Reservation;
-import library.domain.ReservationItem;
-import library.domain.User;
 
 public class App 
 {
@@ -31,19 +23,9 @@ public class App
     	
     	PersonRepositoryExample.run(connection);
     	
-    	ReservationRepository reservationRepository = new ReservationRepository();
-    	reservationRepository.createTable();
+    	ReservationRepositoryExample.run(connection);
     	
-    	Reservation reserv = new Reservation();
-    	reserv.setReservationDate(null);
-    	reserv.setRetirvalDate(null);
-    	reserv.setRealDate(null);
-    	
-    	reservationRepository.add(reserv);
-    	
-    	ReservationItemRepository reservationItemRepository = new ReservationItemRepository();
-    	reservationItemRepository.createTable();
-    	
+    	ReservationItemRepositoryExample.run(connection);
     	
     	BookRepository bookRepository = new BookRepository(connection);
     	bookRepository.createTable();
