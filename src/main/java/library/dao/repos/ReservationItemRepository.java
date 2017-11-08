@@ -14,7 +14,9 @@ import library.domain.Reservation;
 import library.domain.ReservationItem;
 
 public class ReservationItemRepository {
-	
+
+	// komentarz
+
 	String url = "jdbc:hsqldb:hsql://localhost/workdb";
 	
 	Connection connection;
@@ -24,6 +26,8 @@ public class ReservationItemRepository {
 	PreparedStatement count;
 	PreparedStatement lastId;
 	PreparedStatement selectPage;
+	PreparedStatement update;
+	PreparedStatement delete;
 	
 	public ReservationItemRepository(){
 		
@@ -44,7 +48,16 @@ public class ReservationItemRepository {
 					);
 			selectPage = connection.prepareStatement(""
 					+ "SELECT * FROM person OFFSET ? LIMIT ?"
-					+ "");
+					+ ""
+					);
+			delete = connection.prepareStatement(""
+					+ "DELETE FROM reservation_item WHERE id=?"
+					+ ""
+					);
+			update = connection.prepareStatement(""
+					+ "UPDATE reservation_item SET (reservationId,bookId) = (?,?) WHERE id=?"
+					+ ""
+					);
 					
 					
 			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
@@ -108,6 +121,30 @@ public class ReservationItemRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} 
+	}
+
+	public void update(ReservationItem reservationItem){
+
+		try {
+
+			update.setInt(1, reservationItem.getReservationId());
+			update.setInt(2, reservationItem.getBookId());
+			update.setInt(3, reservationItem.getId());
+			update.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void delete(ReservationItem reservationItem){
+
+		try {
+			delete.setInt(1, reservationItem.getId());
+			delete.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void createTable(){
