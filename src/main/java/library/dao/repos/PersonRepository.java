@@ -6,12 +6,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import library.dao.mappers.IMapper;
 import library.domain.Person;
 
 public class PersonRepository extends RepositoryBase<Person>{
 	
-	public PersonRepository(Connection connection){
-		super(connection);
+	public PersonRepository(Connection connection, IMapper<Person> mapper){
+		super(connection, mapper);
 	}
 
 	@Override
@@ -37,72 +38,17 @@ public class PersonRepository extends RepositoryBase<Person>{
 				+ "surname varchar(50)"
 				+ ")";
 	}
-	
-	public void update(Person person){
-		
-		try {
-			
-			update.setString(1, person.getName());
-			update.setString(2, person.getSurname());
-			update.setInt(3, person.getId());
-			update.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	
-	
-	public List<Person> getPage(int offset, int limit){
-		List<Person> result = new ArrayList<Person>();
-		try {
-			selectPage.setInt(1, offset);
-			selectPage.setInt(1, limit);
-			ResultSet rs = selectPage.executeQuery();
-			while(rs.next()){
-				Person p = new Person();
-				p.setId(rs.getInt("id"));
-				p.setName(rs.getString("name"));
-				p.setSurname(rs.getString("surname"));
-				result.add(p);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-	
-	public Person get(int id){
-		
-		Person result = null;
-		try {
-			selectById.setInt(1, id);
-			ResultSet rs = selectById.executeQuery();
-			
-			while(rs.next()){
-				result = new Person();
-				result.setId(rs.getInt("id"));
-				result.setName(rs.getString("name"));
-				result.setSurname(rs.getString("surname"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-	
-	public void add(Person person){
-		
-		try {
-			insert.setString(1, person.getName());
-			insert.setString(2, person.getSurname());
-			insert.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} 
-	}
-	
 
-	
+	@Override
+	protected void setUpdate(Person person) throws SQLException {
+		update.setString(1, person.getName());
+		update.setString(2, person.getSurname());
+		update.setInt(3, person.getId());
+	}
+
+	@Override
+	protected void setInsert(Person person) throws SQLException {
+		insert.setString(1, person.getName());
+		insert.setString(2, person.getSurname());
+	}
 }
