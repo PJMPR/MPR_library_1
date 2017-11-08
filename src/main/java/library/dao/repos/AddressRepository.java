@@ -6,12 +6,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import library.dao.mappers.IMapper;
 import library.domain.Address;
 
 public class AddressRepository extends RepositoryBase<Address> {
 	
-	public AddressRepository(Connection connection){
-		super(connection);
+	public AddressRepository(Connection connection, IMapper<Address> mapper){
+		super(connection, mapper);
 	}
 	
 	@Override
@@ -49,100 +50,32 @@ public class AddressRepository extends RepositoryBase<Address> {
 				+ "phone varchar(20)"
 				+ ")";
 	}
-	
-	public Address selectById(int id)
-	{
-		Address result = null;
-		try {
-			selectById.setInt(1, id);
-			ResultSet rs = selectById.executeQuery();
-			while(rs.next())
-			{
-				result = new Address();
-				result.setId(rs.getInt("id"));
-				result.setStreet(rs.getString("street"));
-				result.setCity(rs.getString("city"));
-				result.setPostCode(rs.getString("postCode"));
-				result.setCountry(rs.getString("country"));
-				result.setHouseNumber(rs.getString("houseNumber"));
-				result.setLocalNumber(rs.getString("localNumber"));
-				result.setPhone(rs.getString("phone"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-	
-	public List<Address> selectPage(int offset, int limit)
-	{
-		List<Address> result = new ArrayList<Address>();
-		try {
-			selectPage.setInt(1, offset);
-			selectById.setInt(1, limit);
-			ResultSet rs = selectPage.executeQuery();
-			while(rs.next())
-			{
-				Address address = new Address();
-				address.setId(rs.getInt("id"));
-				address.setStreet(rs.getString("street"));
-				address.setCity(rs.getString("city"));
-				address.setPostCode(rs.getString("postCode"));
-				address.setCountry(rs.getString("country"));
-				address.setHouseNumber(rs.getString("houseNumber"));
-				address.setLocalNumber(rs.getString("localNumber"));
-				address.setPhone(rs.getString("phone"));
-				result.add(address);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-	
-	public void update(Address address)
-	{
-		try {
-			
-			update.setString(1, address.getStreet());
-			update.setString(2, address.getCity());
-			update.setString(3, address.getPostCode());
-			update.setString(4, address.getCountry());
-			update.setString(5, address.getHouseNumber());
-			update.setString(6, address.getLocalNumber());
-			update.setString(7, address.getPhone());
-			update.setInt(8, address.getId());
-			update.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void delete(Address address)
-	{
-		try {
-			delete.setInt(1, address.getId());
-			delete.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void add(Address address){
-		
-		try {
-			insert.setString(1,address.getStreet());
-			insert.setString(2, address.getCity());
-			insert.setString(3,address.getPostCode());
-			insert.setString(4,address.getCountry());
-			insert.setString(5, address.getHouseNumber());
-			insert.setString(6,address.getLocalNumber());
-			insert.setString(7, address.getPhone());
-			insert.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} 
+
+	@Override
+	protected void setUpdate(Address address) throws SQLException {
+		update.setString(1, address.getStreet());
+		update.setString(2, address.getCity());
+		update.setString(3, address.getPostCode());
+		update.setString(4, address.getCountry());
+		update.setString(5, address.getHouseNumber());
+		update.setString(6, address.getLocalNumber());
+		update.setString(7, address.getPhone());
 		
 	}
+
+	@Override
+	protected void setInsert(Address address) throws SQLException {
+		update.setString(1, address.getStreet());
+		update.setString(2, address.getCity());
+		update.setInt(3, address.getPostCode());
+		update.setString(4, address.getCountry());
+		update.setString(5, address.getHouseNumber());
+		update.setString(6, address.getLocalNumber());
+		update.setString(7, address.getPhone());
+		
+		
+	}
+	
+
 }
 	
