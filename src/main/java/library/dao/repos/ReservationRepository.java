@@ -1,19 +1,17 @@
 package library.dao.repos;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
+import library.dao.mappers.IMapper;
 import library.domain.Reservation;
 
 public class ReservationRepository extends RepositoryBase<Reservation> {
 	
 	
-	public ReservationRepository(Connection connection)
+	public ReservationRepository(Connection connection, IMapper<Reservation> mapper)
 	{
-		super(connection);
+		super(connection, mapper);
 	}
 	
 	@Override
@@ -40,51 +38,20 @@ public class ReservationRepository extends RepositoryBase<Reservation> {
 				+ "real_date date"
 				+ ")";
 	}
-	
-	public void add(Reservation reservation) 
-	{
-		try {
-			insert.setDate(1, reservation.getReservationDate());
-			insert.setDate(2, reservation.getRetirvalDate());
-			insert.setDate(3, reservation.getRealDate());
-			insert.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} 
-	}
-	
-	public void update(Reservation reservation) 
-	{
-		try {
-			update.setDate(1, reservation.getReservationDate());
-			update.setDate(2, reservation.getRetirvalDate());
-			update.setDate(3, reservation.getRealDate());
-			update.setInt(4, reservation.getId());
-			update.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+
+	@Override
+	protected void setUpdate(Reservation reservation) throws SQLException {
+		update.setDate(1, reservation.getReservationDate());
+		update.setDate(2, reservation.getRetirvalDate());
+		update.setDate(3, reservation.getRealDate());
+		update.setInt(4, reservation.getId());
 	}
 
-	public List<Reservation> getPage(int offset, int limit) 
-	{
-		List<Reservation> result = new ArrayList<Reservation>();
-		try {
-			selectPage.setInt(1, offset);
-			selectPage.setInt(1, limit);
-			ResultSet rs = selectPage.executeQuery();
-			while(rs.next()){
-			Reservation p = new Reservation();
-			p.setId(rs.getInt("id"));
-			p.setReservationDate(rs.getDate("reservation_date"));
-			p.setRetirvalDate(rs.getDate("retrival_date"));
-			p.setRealDate(rs.getDate("real_date"));
-			result.add(p);
-		}
-		} catch (SQLException e) {
-		e.printStackTrace();
-		}
-			return result;
+	@Override
+	protected void setInsert(Reservation reservation) throws SQLException {
+		insert.setDate(1, reservation.getReservationDate());
+		insert.setDate(2, reservation.getRetirvalDate());
+		insert.setDate(3, reservation.getRealDate());
 	}
 	
 }

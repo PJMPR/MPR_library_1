@@ -1,19 +1,17 @@
 package library.dao.repos;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
+import library.dao.mappers.IMapper;
 import library.domain.ReservationItem;
 
 public class ReservationItemRepository extends RepositoryBase<ReservationItem> 
 {
 	
-	public ReservationItemRepository(Connection connection) 
+	public ReservationItemRepository(Connection connection, IMapper<ReservationItem> mapper) 
 	{
-		super(connection);
+		super(connection, mapper);
 	}
 	
 	@Override
@@ -39,77 +37,18 @@ public class ReservationItemRepository extends RepositoryBase<ReservationItem>
 				+ "book_id bigint"
 				+ ")";
 	}
-	
-	public int lastId() 
-	{
-		try {
-			ResultSet rs = lastId.executeQuery();
-			while(rs.next()){
-			return rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			}
-		return 0;
-	}
-	
-	public int count() 
-	{
-		try {
-			ResultSet rs = count.executeQuery();
-			while(rs.next()){
-			return rs.getInt(1);
-			}
-		} catch (SQLException e) {
-		e.printStackTrace();
-		}
-			return 0;
-	}
-	
-	public List<ReservationItem> getPage(int offset, int limit) 
-	{
-		List<ReservationItem> result = new ArrayList<ReservationItem>();
-		try {
-			selectPage.setInt(1, offset);
-			selectPage.setInt(1, limit);
-			ResultSet rs = selectPage.executeQuery();
-			while(rs.next()){
-			ReservationItem p = new ReservationItem();
-			p.setId(rs.getInt("id"));
-			p.setReservationId(rs.getInt("reservation_id"));
-			p.setBookId(rs.getInt("book_id"));
-			result.add(p);
-		}
-		} catch (SQLException e) {
-		e.printStackTrace();
-		}
-			return result;
-	}
-	
-	public void add(ReservationItem reservationItem ) 
-	{
-		
-		try {
-			insert.setInt(1, reservationItem.getReservation().getId());
-			insert.setInt(2, reservationItem.getBook().getId());
-			insert.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} 
+
+	@Override
+	protected void setUpdate(ReservationItem reservationItem) throws SQLException {
+		update.setInt(1, reservationItem.getReservationId());
+		update.setInt(2, reservationItem.getBookId());
+		update.setInt(3, reservationItem.getId());
 	}
 
-	public void update(ReservationItem reservationItem) 
-	{
-
-		try {
-
-			update.setInt(1, reservationItem.getReservationId());
-			update.setInt(2, reservationItem.getBookId());
-			update.setInt(3, reservationItem.getId());
-			update.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	@Override
+	protected void setInsert(ReservationItem reservationItem) throws SQLException {
+		insert.setInt(1, reservationItem.getReservation().getId());
+		insert.setInt(2, reservationItem.getBook().getId());
 	}
 	
 }
