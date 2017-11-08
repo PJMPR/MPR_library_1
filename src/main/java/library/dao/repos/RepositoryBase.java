@@ -5,14 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
+import library.dao.mappers.IMapper;
 import library.domain.IHaveId;
-import library.domain.Person;
 
 public abstract class RepositoryBase<TEntity extends IHaveId> {
 
 
 	protected Connection connection;
+	protected IMapper<TEntity> mapper;
 	
 	protected boolean tableExists;
 	
@@ -24,10 +27,10 @@ public abstract class RepositoryBase<TEntity extends IHaveId> {
 	protected PreparedStatement delete;
 	protected PreparedStatement update;
 	
-	protected RepositoryBase(Connection connection){
+	protected RepositoryBase(Connection connection, IMapper<TEntity> mapper){
 		
 		try {
-			
+			this.mapper = mapper;
 			this.connection = connection;
 			initStatements(connection);
 			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
@@ -100,6 +103,23 @@ public abstract class RepositoryBase<TEntity extends IHaveId> {
 		}
 	}
 	
+	public void update(TEntity person){
+		try {
+			setUpdate(person);
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void add(TEntity person){
+		try {
+			setInsert(person);
+			insert.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+	}
 
 	public void createTable(){
 		
@@ -114,9 +134,43 @@ public abstract class RepositoryBase<TEntity extends IHaveId> {
 			e.printStackTrace();
 		}
 	}
+	
+
+	public List<TEntity> getPage(int offset, int limit){
+		List<TEntity> result = new ArrayList<TEntity>();
+		try {
+			selectPage.setInt(1, offset);
+			selectPage.setInt(1, limit);
+			ResultSet rs = selectPage.executeQuery();
+			while(rs.next()){
+				result.add(mapper.map(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public TEntity get(int id){
+		
+		try {
+			selectById.setInt(1, id);
+			ResultSet rs = selectById.executeQuery();
+			
+			while(rs.next()){
+				return mapper.map(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	protected abstract String createTableStatementSql();
 	protected abstract String getUpdateQuerySql();
 	protected abstract String getInsertQuerySql();
 	protected abstract String getTableName();	
+	
+	protected abstract void setUpdate(TEntity person) throws SQLException;
+	protected abstract void setInsert(TEntity person) throws SQLException;
 }
