@@ -16,42 +16,7 @@ public class AuthorRepository extends RepositoryBase {
 	
 	
 	public AuthorRepository(Connection connection){
-		
-		try {
-			
-			this.connection=connection;
-			
-			insert = connection.prepareStatement(""
-					+ "INSERT INTO author(first_name, last_name) VALUES (?,?)"
-					+ "");
-			
-			selectById = connection.prepareStatement(""
-					+ "SELECT * FROM author WHERE id=?");
-			
-			count = connection.prepareStatement("SELECT COUNT(*) FROM author");
-			lastId = connection.prepareStatement("SELECT MAX(id) FROM author");
-			selectPage = connection.prepareStatement(""
-					+ "SELECT * FROM author OFFSET ? LIMIT ?"
-					+ "");
-			
-			delete = connection.prepareStatement(""
-					+ "DELETE FROM author WHERE id=?"
-					+ "");
-			
-			update = connection.prepareStatement(""
-					+ "UPDATE author SET (first_name, last_name) = (?,?) WHERE id=?"
-					+ "");
-			
-			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
-			
-			while(rs.next()){
-				if(rs.getString("TABLE_NAME").equalsIgnoreCase("author"))
-					tableExists=true;
-			}
-		
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		super(connection);
 	}
 	
 	public void update(Author author){
@@ -149,6 +114,28 @@ public class AuthorRepository extends RepositoryBase {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	protected String getUpdateQuerySql() {
+		// TODO Auto-generated method stub
+		return ""
+		+ "UPDATE author SET (first_name,last_name) = (?,?) WHERE id=?"
+		+ "";
+	}
+
+	@Override
+	protected String getInsertQuerySql() {
+		// TODO Auto-generated method stub
+		return  ""
+		+ "INSERT INTO author(first_name, last_name) VALUES (?,?)"
+		+ "";
+	}
+
+	@Override
+	protected String getTableName() {
+		// TODO Auto-generated method stub
+		return "author";
 	}
 
 }
