@@ -4,7 +4,7 @@ import java.sql.Date;
 
 
 
-public class Reservation {
+public class Reservation implements IHaveId{
     private int id;
     private Date ReservationDate;
     private Date RetirvalDate;
