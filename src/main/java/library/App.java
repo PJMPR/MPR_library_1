@@ -7,6 +7,12 @@ import java.sql.SQLException;
 import library.dao.repos.AddressRepository;
 import library.dao.repos.AuthorRepository;
 import library.dao.repos.BookRepository;
+import library.dao.repos.AddressRepository;
+import library.dao.repos.PersonRepository;
+import library.dao.repos.ReservationItemRepository;
+import library.dao.repos.ReservationRepository;
+import library.dao.repos.UserRepository;
+import library.daor.repos.examples.BookRepositoryExample;
 import library.daor.repos.examples.PersonRepositoryExample;
 import library.daor.repos.examples.ReservationItemRepositoryExample;
 import library.daor.repos.examples.ReservationRepositoryExample;
@@ -22,14 +28,13 @@ public class App
     	Connection connection = DriverManager.getConnection(url);
     	
     	PersonRepositoryExample.run(connection);
+    	BookRepositoryExample.run(connection);
     	
     	ReservationRepositoryExample.run(connection);
     	
+
     	ReservationItemRepositoryExample.run(connection);
-    	
-    	BookRepository bookRepository = new BookRepository(connection);
-    	bookRepository.createTable();
-    	
+
     	AuthorRepository authorRepository = new AuthorRepository(connection);
     	authorRepository.createTable();
     	
