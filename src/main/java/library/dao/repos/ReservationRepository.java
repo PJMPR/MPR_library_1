@@ -8,8 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import library.domain.Person;
@@ -65,9 +63,9 @@ public class ReservationRepository extends RepositoryBase {
 		
 		try {
 
-			insert.setDate(1,new Date(reservation.getReservationDate().getTimeInMillis()));
-			insert.setDate(2,  new Date(reservation.getRetirvalDate().getTimeInMillis()));
-			insert.setDate(3,  new Date(reservation.getRealDate().getTimeInMillis()));
+			insert.setDate(1, reservation.getReservationDate());
+			insert.setDate(2, reservation.getRetirvalDate());
+			insert.setDate(3, reservation.getRealDate());
 			insert.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -78,9 +76,9 @@ public class ReservationRepository extends RepositoryBase {
 		try {
 			
 			
-			update.setDate(1,new Date(reservation.getReservationDate().getTimeInMillis()));
-			update.setDate(2, new Date(reservation.getRetirvalDate().getTimeInMillis()));
-			update.setDate(3,new Date(reservation.getRealDate().getTimeInMillis()));
+			update.setDate(1, reservation.getReservationDate());
+			update.setDate(2, reservation.getRetirvalDate());
+			update.setDate(3, reservation.getRealDate());
 			update.setInt(4, reservation.getId());
 			update.executeUpdate();
 		} catch (SQLException e) {

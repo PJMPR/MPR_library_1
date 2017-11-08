@@ -57,13 +57,13 @@ public class App
     	reservationItemRepository.createTable();
     	
     	
-    	BookRepository bookRepository = new BookRepository();
+    	BookRepository bookRepository = new BookRepository(connection);
     	bookRepository.createTable();
     	
-    	AuthorRepository authorRepository = new AuthorRepository();
+    	AuthorRepository authorRepository = new AuthorRepository(connection);
     	authorRepository.createTable();
     	
-    	AddressRepository addressRepository = new AddressRepository();
+    	AddressRepository addressRepository = new AddressRepository(connection);
     	addressRepository.createTable();
     	
     	Address address = new Address();
@@ -80,7 +80,7 @@ public class App
     	
     	System.out.println(lastId + " " + count);
     	
-    	UserRepository repositoryUser = new UserRepository();
+    	UserRepository repositoryUser = new UserRepository(connection);
     	repository.createTable();
     	System.out.println(jan.getName() + " " + jan.getSurname()+" " +jan.getId());
         System.out.println( "koniec" );

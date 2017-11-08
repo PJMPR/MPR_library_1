@@ -1,14 +1,14 @@
 package library.domain;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.sql.Date;
+
 
 
 public class Reservation {
     private int id;
-    private Calendar ReservationDate;
-    private Calendar RetirvalDate;
-    private Calendar RealDate;
+    private Date ReservationDate;
+    private Date RetirvalDate;
+    private Date RealDate;
 
     public int getId() {
         return id;
@@ -18,27 +18,27 @@ public class Reservation {
         this.id = id;
     }
 
-    public Calendar getReservationDate() {
+    public Date getReservationDate() {
         return ReservationDate;
     }
 
-    public void setReservationDate(Calendar reservationDate) {
+    public void setReservationDate(Date reservationDate) {
         ReservationDate = reservationDate;
     }
 
-    public Calendar getRetirvalDate() {
+    public Date getRetirvalDate() {
         return RetirvalDate;
     }
 
-    public void setRetirvalDate(Calendar retirvalDate) {
+    public void setRetirvalDate(Date retirvalDate) {
         RetirvalDate = retirvalDate;
     }
 
-    public Calendar getRealDate() {
+    public Date getRealDate() {
         return RealDate;
     }
 
-    public void setRealDate(Calendar realDate) {
+    public void setRealDate(Date realDate) {
         RealDate = realDate;
     }
 }
