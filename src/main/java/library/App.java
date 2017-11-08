@@ -11,6 +11,7 @@ import library.dao.repos.PersonRepository;
 import library.dao.repos.ReservationItemRepository;
 import library.dao.repos.ReservationRepository;
 import library.dao.repos.UserRepository;
+import library.daor.repos.examples.PersonRepositoryExample;
 import library.domain.Address;
 import library.domain.Author;
 import library.domain.Book;
@@ -28,20 +29,7 @@ public class App
     	
     	Connection connection = DriverManager.getConnection(url);
     	
-    	PersonRepository repository = new PersonRepository(connection);
-    	repository.createTable();
-    	
-    	Person jan = new Person();
-    	jan.setName("JAN");
-    	jan.setSurname("kowalski");
-    	
-    	repository.add(jan);
-    	
-    	int lastId = repository.lastId();
-    	int count = repository.count();
-    	
-    	System.out.println(lastId + " " +  count);
-    	
+    	PersonRepositoryExample.run(connection);
     	
     	ReservationRepository reservationRepository = new ReservationRepository();
     	reservationRepository.createTable();
@@ -78,12 +66,12 @@ public class App
     	addressRepository.add(address);
     	
     	
-    	System.out.println(lastId + " " + count);
+    //	System.out.println(lastId + " " + count);
     	
-    	UserRepository repositoryUser = new UserRepository(connection);
-    	repository.createTable();
-    	System.out.println(jan.getName() + " " + jan.getSurname()+" " +jan.getId());
-        System.out.println( "koniec" );
+    	///UserRepository repositoryUser = new UserRepository(connection);
+    	//.createTable();
+    	//System.out.println(jan.getName() + " " + jan.getSurname()+" " +jan.getId());
+       // System.out.println( "koniec" );
         
         connection.close();
     }
