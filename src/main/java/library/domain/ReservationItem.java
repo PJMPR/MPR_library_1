@@ -4,7 +4,7 @@ package library.domain;
 /**
  * Created by Kuba on 04.10.2017.
  */
-public class ReservationItem {
+public class ReservationItem implements IHaveId{
     private int id;
     private Reservation reservation;
     private Book book;
