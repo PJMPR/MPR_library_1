@@ -16,46 +16,9 @@ public class UserRepository extends RepositoryBase{
 
 
 	public UserRepository(Connection connection){
-	
-
-		
-		try {
-				this.connection= connection;
-			
-			
-			
-			insert = connection.prepareStatement(""
-					+ "INSERT INTO user(login,password,email) VALUES (?,?,?)"
-					+ "");
-			selectById = connection.prepareStatement("SELECT * FROM User WHERE id=?");
-			
-			count = connection.prepareStatement("SELECT COUNT(id) FROM User");
-			
-			lastId = connection.prepareStatement("SELECT MAX(id) FROM User");
-			
-			selectPage = connection.prepareStatement(""
-					+ "SELECT * FROM User OFFSET ? LIMIT ?"
-					+ "");
-			delete = connection.prepareStatement(""
-					+ "DELETE FROM user WHERE id=?"
-					+ "");
-			
-			update = connection.prepareStatement(""
-					+ "UPDATE user SET (login,password,email) = (?,?,?) WHERE id=?"
-					+ "");
-					
-			
-			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
-			
-			while(rs.next()){
-				if(rs.getString("TABLE_NAME").equalsIgnoreCase("user"))
-					tableExists=true;
-			}
-		
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		super(connection);
 	}
+		
 	public void add(User user){
 		
 		try {
@@ -168,7 +131,20 @@ public class UserRepository extends RepositoryBase{
 			e.printStackTrace();
 		}
 	}
+	protected String getUpdateQuerySql() {
+		return ""
+				+ "UPDATE user SET (id,email,login,password) = (?,?,?,?) WHERE id=?"
+				+ "";
+	}
+	protected String getInsertQuerySql() {
+		return ""
+				+ "INSERT INTO user(id,email,login,password) VALUES (?,?,?,?)"
+				+ "";
+	}
+	@Override
+	protected String getTableName() {
+		return "user";
 	
 	
+	}
 }
-
