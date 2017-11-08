@@ -9,76 +9,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import library.dao.mappers.IMapper;
 import library.domain.Author;
 import library.domain.Person;
 
 public class AuthorRepository extends RepositoryBase<Author> {
 	
 	
-	public AuthorRepository(Connection connection){
-		super(connection);
+	public AuthorRepository(Connection connection,IMapper<Author> mapper){
+		super(connection,mapper);
 	}
-	
-	public void update(Author author){
-		try {
-			update.setString(1, author.getFirst_name());
-			update.setString(2, author.getLast_name());
-			update.setInt(3, author.getId());
-			update.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}	
 
-	public Author get(int id){
-		
-		Author result = null;
-		try {
-			selectById.setInt(1, id);
-			ResultSet rs = selectById.executeQuery();
-			
-			while(rs.next()){
-				result = new Author();
-				result.setId(rs.getInt("id"));
-				result.setFirst_name(rs.getString("first_name"));
-				result.setLast_name(rs.getString("last_name"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-	
-	public List<Author> getPage(int offset, int limit){
-		List<Author> result = new ArrayList<Author>();
-		try {
-			selectPage.setInt(1, offset);
-			selectPage.setInt(1, limit);
-			ResultSet rs = selectPage.executeQuery();
-			while(rs.next()){
-				Author p = new Author();
-				p.setId(rs.getInt("id"));
-				p.setFirst_name(rs.getString("name"));
-				p.setLast_name(rs.getString("surname"));
-				result.add(p);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-		
-	public void add(Author author){
-		try {
-			insert.setString(1, author.getFirst_name());
-			insert.setString(2, author.getLast_name());
-			insert.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} 
-	}
-	
 	@Override
 	protected String getUpdateQuerySql() {
 		return "UPDATE author SET (first_name,last_name) = (?,?) WHERE id=?";
@@ -101,6 +42,21 @@ public class AuthorRepository extends RepositoryBase<Author> {
 		+ "first_name varchar(20),"
 		+ "last_name varchar(50)"
 		+ ")";
+	}
+
+	@Override
+	protected void setUpdate(Author person) throws SQLException {
+		update.setString(1, person.getFirst_name());
+		update.setString(2, person.getLast_name());
+		update.setInt(3, person.getId());
+		
+	}
+
+	@Override
+	protected void setInsert(Author person) throws SQLException {
+		insert.setString(1, person.getFirst_name());
+		insert.setString(2, person.getLast_name());
+		
 	}
 
 }
