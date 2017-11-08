@@ -1,6 +1,6 @@
 package library.domain;
 
-public class Book {
+public class Book implements IHaveId {
 	private int id;
 	private String title;
 	private String publisher;
