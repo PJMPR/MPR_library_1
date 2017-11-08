@@ -9,7 +9,7 @@ public class ReservationItemRepositoryExample
 	
 	public static void run(Connection connection)
 	{
-		ReservationItemRepository reservationItemRepository = new ReservationItemRepository();
+		ReservationItemRepository reservationItemRepository = new ReservationItemRepository(connection);
     	reservationItemRepository.createTable();
 	}
 
