@@ -9,13 +9,28 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import library.dao.mappers.IMapper;
 import library.domain.Person;
 import library.domain.User;
 
 public class UserRepository extends RepositoryBase<User>{
 
-	public UserRepository(Connection connection){
-		super(connection);
+	public UserRepository(Connection connection, IMapper<User> mapper){
+		super(connection, mapper);
+	}
+	
+	@Override
+	protected String getUpdateQuerySql() {
+		return ""
+				+ "UPDATE user SET (id,email,login,password) = (?,?,?,?) WHERE id=?"
+				+ "";
+	}
+	
+	@Override
+	protected String getInsertQuerySql() {
+		return ""
+				+ "INSERT INTO user(id,email,login,password) VALUES (?,?,?,?)"
+				+ "";
 	}
 	
 	@Override
@@ -32,108 +47,19 @@ public class UserRepository extends RepositoryBase<User>{
 				+ "email varchar(50)"
 				+ ")";
 	}
-		
-	public void add(User user){
-		
-		try {
-			insert.setString(1,user.getLogin());
-			insert.setString(2, user.getPassword());
-			insert.setString(3, user.getEmail());
-			insert.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} 
-		
-		 
-			
-		}
 	
-	public int count(){
-		try {
-			ResultSet rs = count.executeQuery();
-			while(rs.next()){
-				return rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
+	@Override
+	protected void setUpdate(User user) throws SQLException {
+		update.setInt(1, user.getId());
+		update.setString(2, user.getLogin());
+		update.setString(3, user.getPassword());
+		update.setString(4, user.getEmail());
 	}
 	
-	public int selectById(){try {
-		ResultSet rs = lastId.executeQuery();
-		while(rs.next()){
-			return rs.getInt(1);
-		}
-	} catch (SQLException e) {
-		e.printStackTrace();
-	}
-	return 0;
-	}
-		
-	public int lastId(){try {
-		ResultSet rs = lastId.executeQuery();
-		while(rs.next()){
-			return rs.getInt(1);
-		}
-	} catch (SQLException e) {
-		e.printStackTrace();
-	}
-	return 0;
-	}
-	
-	public List<User> getPage(int offset, int limit){
-		List<User> result = new ArrayList<User>();
-		try {
-			selectPage.setInt(1, offset);
-			selectPage.setInt(1, limit);
-			ResultSet rs = selectPage.executeQuery();
-			while(rs.next()){
-				User u = new User();
-				u.setId(rs.getInt("id"));
-				u.setLogin(rs.getString("login"));
-				u.setPassword(rs.getString("password"));
-				u.setEmail(rs.getString("email"));
-				result.add(u);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-	
-	public void update(User user){
-		
-		try {
-			update.setInt(1, user.getId());
-			update.setString(2, user.getLogin());
-			update.setString(3, user.getPassword());
-			update.setString(4, user.getEmail());
-	
-			update.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void delete(User user){
-		
-		try {
-			delete.setInt(1, user.getId());
-			delete.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	protected String getUpdateQuerySql() {
-		return ""
-				+ "UPDATE user SET (id,email,login,password) = (?,?,?,?) WHERE id=?"
-				+ "";
-	}
-	protected String getInsertQuerySql() {
-		return ""
-				+ "INSERT INTO user(id,email,login,password) VALUES (?,?,?,?)"
-				+ "";
-	}
+	@Override
+	protected void setInsert(User user) throws SQLException {
+		insert.setString(1, user.getLogin());
+		insert.setString(2, user.getPassword());
+		insert.setString(3, user.getEmail());
+	}	
 }
