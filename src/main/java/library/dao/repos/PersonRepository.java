@@ -1,10 +1,7 @@
 package library.dao.repos;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import library.dao.mappers.IMapper;
 import library.domain.Person;
