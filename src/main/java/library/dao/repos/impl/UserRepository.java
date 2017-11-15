@@ -1,21 +1,14 @@
 package library.dao.repos.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import library.dao.mappers.IMapper;
-import library.domain.Person;
 import library.domain.User;
 
 public class UserRepository extends RepositoryBase<User>{
 
-	public UserRepository(Connection connection, IMapper<User> mapper){
+	public UserRepository(Connection connection, IMapper<User> mapper) throws SQLException{
 		super(connection, mapper);
 	}
 	
