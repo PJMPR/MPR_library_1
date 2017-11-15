@@ -1,13 +1,15 @@
 package library.daor.repos.examples;
 import java.sql.Connection;
-import library.dao.repos.UserRepository;
+
+import library.dao.mappers.UserMapper;
+import library.dao.repos.impl.UserRepository;
 import library.domain.User;
 
 public class UserRepositoryExample {
 
 	public static void run(Connection connection){
 		
-    	UserRepository repository = new UserRepository(connection);
+    	UserRepository repository = new UserRepository(connection, new UserMapper());
     	repository.createTable();
     	
     	User jan = new User();

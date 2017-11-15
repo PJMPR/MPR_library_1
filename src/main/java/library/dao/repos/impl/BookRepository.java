@@ -1,4 +1,4 @@
-package library.dao.repos;
+package library.dao.repos.impl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -52,32 +52,4 @@ public class BookRepository extends RepositoryBase<Book>{
 	protected String getTableName() {
 		return "person";
 	}
-	
-	
-	
-	public void delete(Book book){
-		
-		try {
-			delete.setInt(1, book.getId());
-			delete.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	
-
-
-	
-
-	
-
-	
-	
-	
-	
-	
-	
-
 }

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import library.dao.repos.IDatabaseCatalog;
+import library.dao.repos.impl.DatabaseCatalog;
 import library.daor.repos.examples.AddressRepositoryExample;
 import library.daor.repos.examples.AuthorRepositoryExample;
 import library.daor.repos.examples.BookRepositoryExample;
@@ -20,8 +22,9 @@ public class App
     	String url = "jdbc:hsqldb:hsql://localhost/workdb";
     	
     	Connection connection = DriverManager.getConnection(url);
+    	IDatabaseCatalog catalog = new DatabaseCatalog(connection);
     	
-    	PersonRepositoryExample.run(connection);
+    	PersonRepositoryExample.run(connection,catalog);
     	BookRepositoryExample.run(connection);
     	ReservationRepositoryExample.run(connection);
     	ReservationItemRepositoryExample.run(connection);

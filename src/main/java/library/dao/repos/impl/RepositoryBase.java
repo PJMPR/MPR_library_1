@@ -1,4 +1,4 @@
-package library.dao.repos;
+package library.dao.repos.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import library.dao.mappers.IMapper;
+import library.dao.repos.IRepository;
 import library.domain.IHaveId;
 
-public abstract class RepositoryBase<TEntity extends IHaveId> {
+public abstract class RepositoryBase<TEntity extends IHaveId> implements IRepository<TEntity> {
 
 
 	protected Connection connection;
@@ -27,18 +28,12 @@ public abstract class RepositoryBase<TEntity extends IHaveId> {
 	protected PreparedStatement delete;
 	protected PreparedStatement update;
 	
-	protected RepositoryBase(Connection connection, IMapper<TEntity> mapper){
-		
-		try {
-			this.mapper = mapper;
-			this.connection = connection;
-			initStatements(connection);
-			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
-			checkIfTableExists(rs);
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	protected RepositoryBase(Connection connection, IMapper<TEntity> mapper) throws SQLException{
+		this.mapper = mapper;
+		this.connection = connection;
+		initStatements(connection);
+		ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
+		checkIfTableExists(rs);
 	}
 
 	private void checkIfTableExists(ResultSet rs) throws SQLException {

@@ -2,14 +2,15 @@ package library.daor.repos.examples;
 
 import java.sql.Connection;
 
-import library.dao.repos.AuthorRepository;
+import library.dao.mappers.AuthorMapper;
+import library.dao.repos.impl.AuthorRepository;
 import library.domain.Author;
 
 
 public class AuthorRepositoryExample {
 	public static void run(Connection connection){
 		
-    	AuthorRepository repository = new AuthorRepository(connection);
+    	AuthorRepository repository = new AuthorRepository(connection, new AuthorMapper());
     	repository.createTable();
     	
     	Author author = new Author();
