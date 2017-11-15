@@ -4,6 +4,8 @@ import library.domain.Address;
 import library.domain.Author;
 import library.domain.Book;
 import library.domain.Person;
+import library.domain.Reservation;
+import library.domain.ReservationItem;
 import library.domain.User;
 
 public interface IDatabaseCatalog {
@@ -12,5 +14,7 @@ public interface IDatabaseCatalog {
 	public IRepository<Person> people();
 	public IRepository<Author> authors();
 	public IRepository<Book> books();
+	public IRepository<ReservationItem> reservationItems();
+	public IRepository<Reservation> reservation();
 	public IRepository<User> users();
 }
