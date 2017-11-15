@@ -1,26 +1,43 @@
 package library.dao.repos.impl;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import library.dao.mappers.IMapper;
+import library.dao.repos.IBookRepository;
 import library.domain.Book;
 
-
-public class BookRepository extends RepositoryBase<Book>{
+public class BookRepository extends RepositoryBase<Book> implements IBookRepository {
+	
+	String selectByTitleSql = "SELECT * FROM book WHERE title=?";
+	String selectByPublisherSql = "SELECT * FROM book WHERE publisher=?";
+	String selectByAvailabilitySql = "SELECT * FROM book WHERE isAvailable=?";
+	PreparedStatement selectByTitle;
+	PreparedStatement selectByPublisher;
+	PreparedStatement selectByAvailability;
 	
 	public BookRepository(Connection connection, IMapper<Book> mapper) throws SQLException{
 			super(connection, mapper);
+			selectByTitle = connection.prepareStatement(selectByTitleSql);
+			selectByPublisher = connection.prepareStatement(selectByPublisherSql);
+			selectByAvailability = connection.prepareStatement(selectByAvailabilitySql);
 	}
 	
 	@Override
 	protected String getInsertQuerySql() {
 		return "INSERT INTO book(title, publisher, year, isAvailable) VALUES (?,?,?,?)";
 	}
+	
 	@Override
 	protected String getUpdateQuerySql() {
 		return "UPDATE book SET (title, publisher, year, isAvailable) = (?,?, ?, ?) WHERE id=?";
 
 	}
+	
 	@Override
 	protected String createTableStatementSql() {
 		return "CREATE TABLE book("
@@ -31,6 +48,7 @@ public class BookRepository extends RepositoryBase<Book>{
 				+ "isAvailable boolean"
 				+ ")";
 	}
+	
 	@Override
 	protected void setUpdate(Book book) throws SQLException {
 		update.setString(1, book.getTitle());
@@ -52,4 +70,41 @@ public class BookRepository extends RepositoryBase<Book>{
 	protected String getTableName() {
 		return "person";
 	}
+
+	@Override
+	public List<Book> withTitle(String title) {
+		List<Book> result = new ArrayList<Book>();
+		try {
+			ResultSet rs = selectByTitle.executeQuery();
+			while(rs.next()) result.add(mapper.map(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public List<Book> withPublisher(String publisher) {
+		List<Book> result = new ArrayList<Book>();
+		try {
+			ResultSet rs = selectByPublisher.executeQuery();
+			while(rs.next()) result.add(mapper.map(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public List<Book> withAvailability(boolean isAvailable) {
+		List<Book> result = new ArrayList<Book>();
+		try {
+			ResultSet rs = selectByAvailability.executeQuery();
+			while(rs.next()) result.add(mapper.map(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 }
