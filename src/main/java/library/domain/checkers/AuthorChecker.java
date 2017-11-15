@@ -5,9 +5,9 @@ import library.domain.Person;
 
 public class AuthorChecker {
 	public boolean isNamestValid(Author author) {
-		return author.getFirst_name()!=null && !author.getFirst_name().isEmpty();
+		return author.getFirstName()!=null && !author.getFirstName().isEmpty();
 	}
 	public boolean isLastValid(Author author) {
-		return author.getLast_name()!=null && !author.getLast_name().isEmpty();
+		return author.getLastName()!=null && !author.getLastName().isEmpty();
 	}
 }

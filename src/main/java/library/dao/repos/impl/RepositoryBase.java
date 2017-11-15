@@ -10,9 +10,13 @@ import java.util.List;
 
 import library.dao.mappers.IMapper;
 import library.dao.repos.IRepository;
+import library.dao.uow.Entity;
+import library.dao.uow.IUnitOfWork;
+import library.dao.uow.IUnitOfWorkRepository;
 import library.domain.IHaveId;
 
-public abstract class RepositoryBase<TEntity extends IHaveId> implements IRepository<TEntity> {
+public abstract class RepositoryBase<TEntity extends IHaveId> 
+	implements IRepository<TEntity>, IUnitOfWorkRepository {
 
 
 	protected Connection connection;
@@ -28,14 +32,20 @@ public abstract class RepositoryBase<TEntity extends IHaveId> implements IReposi
 	protected PreparedStatement delete;
 	protected PreparedStatement update;
 	
-	protected RepositoryBase(Connection connection, IMapper<TEntity> mapper) throws SQLException{
+	protected IUnitOfWork uow;
+	
+	protected RepositoryBase(Connection connection, IMapper<TEntity> mapper, IUnitOfWork uow) throws SQLException{
 		this.mapper = mapper;
 		this.connection = connection;
 		initStatements(connection);
 		ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
 		checkIfTableExists(rs);
+		this.uow = uow;
 	}
 
+	
+	
+	
 	private void checkIfTableExists(ResultSet rs) throws SQLException {
 		while(rs.next()){
 			if(rs.getString("TABLE_NAME").equalsIgnoreCase(getTableName()))
@@ -88,32 +98,26 @@ public abstract class RepositoryBase<TEntity extends IHaveId> implements IReposi
 	}
 	
 
-	public void delete(TEntity person){
+	public void delete(TEntity entity){
 		
-		try {
-			delete.setInt(1, person.getId());
-			delete.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		Entity ent = new Entity(this);
+		ent.setEntity(entity);
+		uow.markAsDeleted(ent);
+		
 	}
 	
-	public void update(TEntity person){
-		try {
-			setUpdate(person);
-			update.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void update(TEntity entity){
+
+		Entity ent = new Entity(this);
+		ent.setEntity(entity);
+		uow.markAsChanged(ent);
 	}
 
-	public void add(TEntity person){
-		try {
-			setInsert(person);
-			insert.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} 
+	public void add(TEntity entity){
+
+		Entity ent = new Entity(this);
+		ent.setEntity(entity);
+		uow.markAsNew(ent);
 	}
 
 	public void createTable(){
@@ -161,6 +165,33 @@ public abstract class RepositoryBase<TEntity extends IHaveId> implements IReposi
 		return null;
 	}
 
+	
+
+	public void persistAdd(Entity entity){
+		try {
+			setInsert((TEntity)entity.getEntity());
+			insert.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void persistUpdate(Entity entity){
+		try {
+			setUpdate((TEntity)entity.getEntity());
+			update.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void persistDelete(Entity entity){
+		try {
+			delete.setInt(1, ((TEntity)entity.getEntity()).getId());
+			delete.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	protected abstract String createTableStatementSql();
 	protected abstract String getUpdateQuerySql();
 	protected abstract String getInsertQuerySql();

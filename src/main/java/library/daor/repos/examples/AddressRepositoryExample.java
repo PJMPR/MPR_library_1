@@ -1,6 +1,7 @@
 package library.daor.repos.examples;
 
 import java.sql.Connection;
+import java.util.List;
 
 import library.dao.mappers.AddressMapper;
 import library.dao.mappers.AuthorMapper;
@@ -29,6 +30,8 @@ public class AddressRepositoryExample {
     	int lastId = catalog.addresses().lastId();
     	int count = catalog.addresses().count();
     	
+    	List<Address> postCodeTest = catalog.addresses().withPostCode("84-555");
+    	List<Address> cityTest = catalog.addresses().withCity("Gdansk");
     	System.out.println(lastId + " " +  count);
 		
 	}

@@ -10,14 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import library.dao.mappers.IMapper;
+import library.dao.repos.IAuthorRepository;
 import library.domain.Author;
 import library.domain.Person;
 
-public class AuthorRepository extends RepositoryBase<Author> {
+public class AuthorRepository extends RepositoryBase<Author> implements IAuthorRepository{
 	
+	String slectByNameSql = "SELECT * FROM author WHERE name=?";
+	PreparedStatement selectByName;
 	
 	public AuthorRepository(Connection connection,IMapper<Author> mapper) throws SQLException{
 		super(connection,mapper);
+		selectByName = connection.prepareStatement(slectByNameSql);
 	}
 
 	@Override
@@ -46,17 +50,34 @@ public class AuthorRepository extends RepositoryBase<Author> {
 
 	@Override
 	protected void setUpdate(Author person) throws SQLException {
-		update.setString(1, person.getFirst_name());
-		update.setString(2, person.getLast_name());
+		update.setString(1, person.getFirstName());
+		update.setString(2, person.getLastName());
 		update.setInt(3, person.getId());
 		
 	}
 
 	@Override
 	protected void setInsert(Author person) throws SQLException {
-		insert.setString(1, person.getFirst_name());
-		insert.setString(2, person.getLast_name());
+		insert.setString(1, person.getFirstName());
+		insert.setString(2, person.getLastName());
 		
+	}
+	
+	@Override
+	public List<Author> withName(String name) {
+		List<Author> result = new ArrayList<Author>();
+		try {
+			ResultSet rs = selectByName.executeQuery();
+			while(rs.next()) result.add(mapper.map(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public List<Author> withLastname(String surname) {
+		return null;
 	}
 
 }
