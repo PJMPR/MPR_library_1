@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 import library.dao.repos.IDatabaseCatalog;
 import library.dao.repos.impl.DatabaseCatalog;
+import library.dao.uow.IUnitOfWork;
+import library.dao.uow.UnitOfWork;
 import library.daor.repos.examples.AddressRepositoryExample;
 import library.daor.repos.examples.AuthorRepositoryExample;
 import library.daor.repos.examples.BookRepositoryExample;
@@ -22,7 +24,10 @@ public class App
     	String url = "jdbc:hsqldb:hsql://localhost/workdb";
     	
     	Connection connection = DriverManager.getConnection(url);
-    	IDatabaseCatalog catalog = new DatabaseCatalog(connection);
+    	connection.setAutoCommit(false);
+    	IUnitOfWork uow = new UnitOfWork(connection);
+    	
+    	IDatabaseCatalog catalog = new DatabaseCatalog(connection, uow);
     	
     	PersonRepositoryExample.run(connection,catalog);
     	BookRepositoryExample.run(connection, catalog);
@@ -31,7 +36,8 @@ public class App
 		AuthorRepositoryExample.run(connection, catalog);
 		AddressRepositoryExample.run(connection, catalog);
     	UserRepositoryExample.run(connection, catalog);
-        
+    	
+    	uow.saveChanges();
         connection.close();
     }
 }

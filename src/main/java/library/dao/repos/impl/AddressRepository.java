@@ -1,18 +1,26 @@
 package library.dao.repos.impl;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import library.dao.mappers.IMapper;
+import library.dao.repos.IAddressRepository;
 import library.domain.Address;
+import library.domain.Person;
 
-public class AddressRepository extends RepositoryBase<Address> {
-	
+public class AddressRepository extends RepositoryBase<Address> implements IAddressRepository {
+	String selectByPostCodeSql="SELECT * FROM address WHERE postCode=?";
+	PreparedStatement selectByPostCode;
+	String selectByCitySql="SELECT * FROM address WHERE city=?";
+	PreparedStatement selectByCity;
 	public AddressRepository(Connection connection, IMapper<Address> mapper) throws SQLException{
 		super(connection, mapper);
+		selectByCity=connection.prepareStatement(selectByCitySql);
+		selectByPostCode=connection.prepareStatement(selectByPostCodeSql);
 	}
 	
 	@Override
@@ -65,15 +73,39 @@ public class AddressRepository extends RepositoryBase<Address> {
 
 	@Override
 	protected void setInsert(Address address) throws SQLException {
-		update.setString(1, address.getStreet());
-		update.setString(2, address.getCity());
-		update.setString(3, address.getPostCode());
-		update.setString(4, address.getCountry());
-		update.setString(5, address.getHouseNumber());
-		update.setString(6, address.getLocalNumber());
-		update.setString(7, address.getPhone());
+		insert.setString(1, address.getStreet());
+		insert.setString(2, address.getCity());
+		insert.setString(3, address.getPostCode());
+		insert.setString(4, address.getCountry());
+		insert.setString(5, address.getHouseNumber());
+		insert.setString(6, address.getLocalNumber());
+		insert.setString(7, address.getPhone());
 		
 		
+	}
+
+	@Override
+	public List<Address> withPostCode(String postCode) {
+		List<Address> result = new ArrayList<Address>();
+		try {
+			ResultSet rs = selectByPostCode.executeQuery();
+			while(rs.next()) result.add(mapper.map(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public List<Address> withCity(String city) {
+		List<Address> result = new ArrayList<Address>();
+		try {
+			ResultSet rs = selectByCity.executeQuery();
+			while(rs.next()) result.add(mapper.map(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 
