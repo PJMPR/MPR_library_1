@@ -4,16 +4,16 @@ import java.sql.Connection;
 
 import library.dao.mappers.AddressMapper;
 import library.dao.mappers.AuthorMapper;
+import library.dao.repos.IDatabaseCatalog;
 import library.dao.repos.impl.AddressRepository;
 import library.dao.repos.impl.PersonRepository;
 import library.domain.Address;
 import library.domain.Person;
 
 public class AddressRepositoryExample {
-	public static void run(Connection connection){
+	public static void run(Connection connection,IDatabaseCatalog catalog){
 		
-    	AddressRepository repository = new AddressRepository(connection, new AddressMapper());
-    	repository.createTable();
+    	catalog.addresses().createTable();
     	
     	Address address = new Address();
     	address.setStreet("Szybka");
@@ -24,11 +24,10 @@ public class AddressRepositoryExample {
     	address.setLocalNumber("3");
     	address.setPhone("664-000-444");
     	
+    	catalog.addresses().add(address);
     	
-    	repository.add(address);
-    	
-    	int lastId = repository.lastId();
-    	int count = repository.count();
+    	int lastId = catalog.addresses().lastId();
+    	int count = catalog.addresses().count();
     	
     	System.out.println(lastId + " " +  count);
 		

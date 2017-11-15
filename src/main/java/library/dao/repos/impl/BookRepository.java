@@ -8,7 +8,7 @@ import library.domain.Book;
 
 public class BookRepository extends RepositoryBase<Book>{
 	
-	public BookRepository(Connection connection, IMapper<Book> mapper){
+	public BookRepository(Connection connection, IMapper<Book> mapper) throws SQLException{
 			super(connection, mapper);
 	}
 	

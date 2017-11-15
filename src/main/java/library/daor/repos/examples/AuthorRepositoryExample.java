@@ -3,24 +3,24 @@ package library.daor.repos.examples;
 import java.sql.Connection;
 
 import library.dao.mappers.AuthorMapper;
+import library.dao.repos.IDatabaseCatalog;
 import library.dao.repos.impl.AuthorRepository;
 import library.domain.Author;
 
 
 public class AuthorRepositoryExample {
-	public static void run(Connection connection){
+	public static void run(Connection connection,IDatabaseCatalog catalog){
 		
-    	AuthorRepository repository = new AuthorRepository(connection, new AuthorMapper());
-    	repository.createTable();
+    	catalog.authors().createTable();
     	
     	Author author = new Author();
     	author.setFirst_name("Pawel");
     	author.setLast_name("Nowak");
     	
-    	repository.add(author);
+    	catalog.authors().add(author);
     	
-    	int lastId = repository.lastId();
-    	int count = repository.count();
+    	int lastId = catalog.authors().lastId();
+    	int count = catalog.authors().count();
     	
     	System.out.println(lastId + " " +  count);
 		
