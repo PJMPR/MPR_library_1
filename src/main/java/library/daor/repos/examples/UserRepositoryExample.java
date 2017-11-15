@@ -1,16 +1,14 @@
 package library.daor.repos.examples;
 import java.sql.Connection;
 
-import library.dao.mappers.UserMapper;
-import library.dao.repos.impl.UserRepository;
+import library.dao.repos.IDatabaseCatalog;
 import library.domain.User;
 
 public class UserRepositoryExample {
 
-	public static void run(Connection connection){
+	public static void run(Connection connection, IDatabaseCatalog catalog){
 		
-    	UserRepository repository = new UserRepository(connection, new UserMapper());
-    	repository.createTable();
+    	catalog.users().createTable();
     	
     	User jan = new User();
     	jan.setId(1);
@@ -18,10 +16,10 @@ public class UserRepositoryExample {
     	jan.setLogin("Janusz");
     	jan.setPassword("janusz011");
     	
-    	repository.add(jan);
+    	catalog.users().add(jan);
     	
-    	int lastId = repository.lastId();
-    	int count = repository.count();
+    	int lastId = catalog.users().lastId();
+    	int count = catalog.users().count();
     	
     	System.out.println(lastId + " " +  count);
 		
