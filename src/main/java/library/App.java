@@ -30,7 +30,7 @@ public class App
     	ReservationItemRepositoryExample.run(connection,catalog);
 		AuthorRepositoryExample.run(connection);
 		AddressRepositoryExample.run(connection);
-    	UserRepositoryExample.run(connection);
+    	UserRepositoryExample.run(connection, catalog);
         
         connection.close();
     }
