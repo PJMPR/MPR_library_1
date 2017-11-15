@@ -11,7 +11,7 @@ import library.domain.Address;
 
 public class AddressRepository extends RepositoryBase<Address> {
 	
-	public AddressRepository(Connection connection, IMapper<Address> mapper){
+	public AddressRepository(Connection connection, IMapper<Address> mapper) throws SQLException{
 		super(connection, mapper);
 	}
 	

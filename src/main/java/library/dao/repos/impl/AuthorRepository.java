@@ -16,7 +16,7 @@ import library.domain.Person;
 public class AuthorRepository extends RepositoryBase<Author> {
 	
 	
-	public AuthorRepository(Connection connection,IMapper<Author> mapper){
+	public AuthorRepository(Connection connection,IMapper<Author> mapper) throws SQLException{
 		super(connection,mapper);
 	}
 

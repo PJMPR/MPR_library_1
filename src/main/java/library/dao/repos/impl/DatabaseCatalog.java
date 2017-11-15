@@ -3,12 +3,16 @@ package library.dao.repos.impl;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import library.dao.mappers.AddressMapper;
+import library.dao.mappers.AuthorMapper;
+import library.dao.mappers.BookMapper;
 import library.dao.mappers.PersonMapper;
 import library.dao.mappers.UserMapper;
 import library.dao.repos.IDatabaseCatalog;
 import library.dao.repos.IRepository;
 import library.domain.Address;
 import library.domain.Author;
+import library.domain.Book;
 import library.domain.Person;
 import library.domain.Reservation;
 import library.domain.ReservationItem;
@@ -24,7 +28,12 @@ public class DatabaseCatalog implements IDatabaseCatalog{
 	
 	@Override
 	public IRepository<Address> addresses() {
-		return null;
+		try {
+			return new AddressRepository(connection, new AddressMapper());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
@@ -39,8 +48,22 @@ public class DatabaseCatalog implements IDatabaseCatalog{
 
 	@Override
 	public IRepository<Author> authors() {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return new AuthorRepository(connection, new AuthorMapper());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public IRepository<Book> books() {
+		try {
+			return new BookRepository(connection, new BookMapper());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@Override
