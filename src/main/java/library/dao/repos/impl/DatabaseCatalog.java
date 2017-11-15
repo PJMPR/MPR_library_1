@@ -4,11 +4,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import library.dao.mappers.PersonMapper;
+import library.dao.mappers.UserMapper;
 import library.dao.repos.IDatabaseCatalog;
 import library.dao.repos.IRepository;
 import library.domain.Address;
 import library.domain.Author;
 import library.domain.Person;
+import library.domain.User;
 
 public class DatabaseCatalog implements IDatabaseCatalog{
 
@@ -37,6 +39,16 @@ public class DatabaseCatalog implements IDatabaseCatalog{
 	public IRepository<Author> authors() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public IRepository<User> users() {
+		try {
+			return new UserRepository(connection, new UserMapper());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }
