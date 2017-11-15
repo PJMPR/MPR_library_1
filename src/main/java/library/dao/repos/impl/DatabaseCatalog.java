@@ -12,6 +12,8 @@ import library.dao.repos.IAddressRepository;
 import library.dao.repos.IDatabaseCatalog;
 import library.dao.repos.IPersonRepository;
 import library.dao.repos.IRepository;
+import library.dao.uow.IUnitOfWork;
+import library.dao.uow.UnitOfWork;
 import library.domain.Address;
 import library.domain.Author;
 import library.domain.Book;
@@ -23,9 +25,11 @@ import library.domain.User;
 public class DatabaseCatalog implements IDatabaseCatalog{
 
 	Connection connection;
+	IUnitOfWork uow;
 	
-	public DatabaseCatalog(Connection connection){
+	public DatabaseCatalog(Connection connection, IUnitOfWork uow){
 		this.connection = connection;
+		this.uow = uow;
 	}
 	
 	@Override
@@ -41,7 +45,7 @@ public class DatabaseCatalog implements IDatabaseCatalog{
 	@Override
 	public IPersonRepository people() {
 		try {
-			return new PersonRepository(connection, new PersonMapper());
+			return new PersonRepository(connection, new PersonMapper(), uow);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;

@@ -9,6 +9,7 @@ import java.util.List;
 
 import library.dao.mappers.IMapper;
 import library.dao.repos.IPersonRepository;
+import library.dao.uow.IUnitOfWork;
 import library.domain.Person;
 
 public class PersonRepository extends RepositoryBase<Person> implements IPersonRepository{
@@ -16,8 +17,8 @@ public class PersonRepository extends RepositoryBase<Person> implements IPersonR
 	String slectByNameSql = "SELECT * FROM person WHERE name=?";
 	PreparedStatement selectByName;
 	
-	public PersonRepository(Connection connection, IMapper<Person> mapper) throws SQLException{
-		super(connection, mapper);
+	public PersonRepository(Connection connection, IMapper<Person> mapper, IUnitOfWork uow) throws SQLException{
+		super(connection, mapper, uow);
 		selectByName = connection.prepareStatement(slectByNameSql);
 	}
 

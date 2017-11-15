@@ -21,11 +21,11 @@ public class AuthorCheckerTest {
 		
 		Author authorWithFirstAndLast = new Author();
 		
-		authorWithEmptyFirstAndLast.setFirst_name("");
-		authorWithEmptyFirstAndLast.setLast_name("");
+		authorWithEmptyFirstAndLast.setFirstName("");
+		authorWithEmptyFirstAndLast.setLastName("");
 		
-		authorWithFirstAndLast.setFirst_name("Tomek");
-		authorWithFirstAndLast.setLast_name("Pannowski");
+		authorWithFirstAndLast.setFirstName("Tomek");
+		authorWithFirstAndLast.setLastName("Pannowski");
 		
 		boolean inValidResultForNullFirst = checker.isNamestValid(authorWithNullFirstAndLast);
 		boolean inValidResultForEmptyNameFirst = checker.isNamestValid(authorWithEmptyFirstAndLast);
