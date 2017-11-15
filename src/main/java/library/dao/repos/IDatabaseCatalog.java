@@ -12,7 +12,7 @@ public interface IDatabaseCatalog {
 
 	public IAddressRepository addresses();
 	public IPersonRepository people();
-	public IRepository<Author> authors();
+	public IAuthorRepository authors();
 	public IRepository<Book> books();
 	public IRepository<ReservationItem> reservationItems();
 	public IReservationRepository reservation();

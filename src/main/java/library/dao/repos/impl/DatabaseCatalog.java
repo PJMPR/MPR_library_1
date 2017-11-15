@@ -10,6 +10,7 @@ import library.dao.mappers.PersonMapper;
 import library.dao.mappers.ReservationItemMapper;
 import library.dao.mappers.ReservationMapper;
 import library.dao.mappers.UserMapper;
+import library.dao.repos.IAuthorRepository;
 import library.dao.repos.IAddressRepository;
 import library.dao.repos.IDatabaseCatalog;
 import library.dao.repos.IPersonRepository;
@@ -56,7 +57,7 @@ public class DatabaseCatalog implements IDatabaseCatalog{
 	}
 
 	@Override
-	public IRepository<Author> authors() {
+	public IAuthorRepository authors() {
 		try {
 			return new AuthorRepository(connection, new AuthorMapper());
 		} catch (SQLException e) {
