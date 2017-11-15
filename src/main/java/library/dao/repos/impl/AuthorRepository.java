@@ -46,16 +46,16 @@ public class AuthorRepository extends RepositoryBase<Author> {
 
 	@Override
 	protected void setUpdate(Author person) throws SQLException {
-		update.setString(1, person.getFirst_name());
-		update.setString(2, person.getLast_name());
+		update.setString(1, person.getFirstName());
+		update.setString(2, person.getLastName());
 		update.setInt(3, person.getId());
 		
 	}
 
 	@Override
 	protected void setInsert(Author person) throws SQLException {
-		insert.setString(1, person.getFirst_name());
-		insert.setString(2, person.getLast_name());
+		insert.setString(1, person.getFirstName());
+		insert.setString(2, person.getLastName());
 		
 	}
 
