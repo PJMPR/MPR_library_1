@@ -1,17 +1,30 @@
 package library.dao.repos.impl;
 
+import java.util.List;
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import library.dao.mappers.IMapper;
+import library.dao.repos.IReservationRepository;
 import library.domain.Reservation;
 
-public class ReservationRepository extends RepositoryBase<Reservation> {
+public class ReservationRepository extends RepositoryBase<Reservation> implements IReservationRepository {
 	
+	String selectByReservationDateSql = "SELECT * FROM reservation WHERE reservation_date=?";
+	PreparedStatement selectByReservationDate;
+	
+	String selectByRetrievalDateSql = "SELECT * FROM reservation WHERE retrieval_date=?";
+	PreparedStatement selectByRetrievalDate;
 	
 	public ReservationRepository(Connection connection, IMapper<Reservation> mapper) throws SQLException
 	{
 		super(connection, mapper);
+		selectByReservationDate = connection.prepareStatement(selectByReservationDateSql);
+		selectByRetrievalDate = connection.prepareStatement(selectByRetrievalDateSql);
 	}
 	
 	@Override
@@ -52,6 +65,30 @@ public class ReservationRepository extends RepositoryBase<Reservation> {
 		insert.setDate(1, reservation.getReservationDate());
 		insert.setDate(2, reservation.getRetirvalDate());
 		insert.setDate(3, reservation.getRealDate());
+	}
+	
+	@Override
+	public List<Reservation> withReservationDate(Date ReservationDate) {
+		List<Reservation> result = new ArrayList<Reservation>();
+		try {
+			ResultSet rs = selectByReservationDate.executeQuery();
+			while(rs.next()) result.add(mapper.map(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	@Override
+	public List<Reservation> withRetrievalDate(Date RetrievalDate) {
+		List<Reservation> result = new ArrayList<Reservation>();
+		try {
+			ResultSet rs = selectByRetrievalDate.executeQuery();
+			while(rs.next()) result.add(mapper.map(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 }
