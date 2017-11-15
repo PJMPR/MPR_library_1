@@ -1,15 +1,24 @@
 package library.dao.repos.impl;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import library.dao.mappers.IMapper;
+import library.dao.repos.IPersonRepository;
 import library.domain.Person;
 
-public class PersonRepository extends RepositoryBase<Person>{
+public class PersonRepository extends RepositoryBase<Person> implements IPersonRepository{
+	
+	String slectByNameSql = "SELECT * FROM person WHERE name=?";
+	PreparedStatement selectByName;
 	
 	public PersonRepository(Connection connection, IMapper<Person> mapper) throws SQLException{
 		super(connection, mapper);
+		selectByName = connection.prepareStatement(slectByNameSql);
 	}
 
 	@Override
@@ -47,5 +56,22 @@ public class PersonRepository extends RepositoryBase<Person>{
 	protected void setInsert(Person person) throws SQLException {
 		insert.setString(1, person.getName());
 		insert.setString(2, person.getSurname());
+	}
+
+	@Override
+	public List<Person> withName(String name) {
+		List<Person> result = new ArrayList<Person>();
+		try {
+			ResultSet rs = selectByName.executeQuery();
+			while(rs.next()) result.add(mapper.map(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public List<Person> withSurname(String surname) {
+		return null;
 	}
 }

@@ -1,6 +1,7 @@
 package library.daor.repos.examples;
 
 import java.sql.Connection;
+import java.util.List;
 
 import library.dao.repos.IDatabaseCatalog;
 import library.domain.Person;
@@ -20,6 +21,8 @@ public class PersonRepositoryExample {
     	
     	int lastId = catalog.people().lastId();
     	int count = catalog.people().count();
+    	
+    	List<Person> janki = catalog.people().withName("jan");
     	
     	System.out.println(lastId + " " +  count);
 		

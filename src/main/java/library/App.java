@@ -25,11 +25,11 @@ public class App
     	IDatabaseCatalog catalog = new DatabaseCatalog(connection);
     	
     	PersonRepositoryExample.run(connection,catalog);
-    	BookRepositoryExample.run(connection);
+    	BookRepositoryExample.run(connection, catalog);
     	ReservationRepositoryExample.run(connection,catalog);
     	ReservationItemRepositoryExample.run(connection,catalog);
-		AuthorRepositoryExample.run(connection);
-		AddressRepositoryExample.run(connection);
+		AuthorRepositoryExample.run(connection, catalog);
+		AddressRepositoryExample.run(connection, catalog);
     	UserRepositoryExample.run(connection, catalog);
         
         connection.close();
