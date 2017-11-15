@@ -11,8 +11,8 @@ public class AuthorMapper implements IMapper<Author> {
 	public Author map(ResultSet rs) throws SQLException {
 		Author p = new Author();
 		p.setId(rs.getInt("id"));
-		p.setFirst_name(rs.getString("first_name"));
-		p.setLast_name(rs.getString("last_name"));
+		p.setFirstName(rs.getString("firstName"));
+		p.setLastName(rs.getString("lastName"));
 		return p;
 	}
 

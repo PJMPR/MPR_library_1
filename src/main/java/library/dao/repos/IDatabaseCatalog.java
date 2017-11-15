@@ -10,7 +10,7 @@ import library.domain.User;
 
 public interface IDatabaseCatalog {
 
-	public IRepository<Address> addresses();
+	public IAddressRepository addresses();
 	public IPersonRepository people();
 	public IRepository<Author> authors();
 	public IRepository<Book> books();
