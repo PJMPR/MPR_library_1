@@ -9,6 +9,7 @@ import library.dao.mappers.BookMapper;
 import library.dao.mappers.PersonMapper;
 import library.dao.mappers.UserMapper;
 import library.dao.repos.IDatabaseCatalog;
+import library.dao.repos.IPersonRepository;
 import library.dao.repos.IRepository;
 import library.domain.Address;
 import library.domain.Author;
@@ -37,7 +38,7 @@ public class DatabaseCatalog implements IDatabaseCatalog{
 	}
 
 	@Override
-	public IRepository<Person> people() {
+	public IPersonRepository people() {
 		try {
 			return new PersonRepository(connection, new PersonMapper());
 		} catch (SQLException e) {

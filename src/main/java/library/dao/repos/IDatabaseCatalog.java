@@ -11,7 +11,7 @@ import library.domain.User;
 public interface IDatabaseCatalog {
 
 	public IRepository<Address> addresses();
-	public IRepository<Person> people();
+	public IPersonRepository people();
 	public IRepository<Author> authors();
 	public IRepository<Book> books();
 	public IRepository<ReservationItem> reservationItems();
