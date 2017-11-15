@@ -1,11 +1,9 @@
 package library.daor.repos.examples;
 
 import java.sql.Connection;
+import java.util.List;
 
-import library.dao.mappers.BookMapper;
 import library.dao.repos.IDatabaseCatalog;
-import library.dao.repos.impl.BookRepository;
-import library.domain.Author;
 import library.domain.Book;
 
 public class BookRepositoryExample {
@@ -24,6 +22,10 @@ public class BookRepositoryExample {
     	
     	int lastId = catalog.books().lastId();
     	int count = catalog.books().count();
+    	
+    	List<Book> booksWithTitle = catalog.books().withTitle("Titile");
+    	List<Book> booksWithPublisher = catalog.books().withPublisher("Publisher");
+    	List<Book> booksWithAvailability = catalog.books().withAvailability(true);
     	
     	System.out.println(lastId + " " +  count);
 	}
