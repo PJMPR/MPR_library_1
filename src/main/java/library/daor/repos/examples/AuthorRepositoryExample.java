@@ -14,8 +14,8 @@ public class AuthorRepositoryExample {
     	catalog.authors().createTable();
     	
     	Author author = new Author();
-    	author.setFirst_name("Pawel");
-    	author.setLast_name("Nowak");
+    	author.setFirstName("Pawel");
+    	author.setLastName("Nowak");
     	
     	catalog.authors().add(author);
     	
