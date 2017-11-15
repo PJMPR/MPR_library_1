@@ -15,6 +15,6 @@ public interface IDatabaseCatalog {
 	public IRepository<Author> authors();
 	public IRepository<Book> books();
 	public IRepository<ReservationItem> reservationItems();
-	public IRepository<Reservation> reservation();
+	public IReservationRepository reservation();
 	public IRepository<User> users();
 }

@@ -1,6 +1,8 @@
 package library.daor.repos.examples;
 
+import java.util.List;
 import java.sql.Connection;
+
 import library.dao.repos.IDatabaseCatalog;
 import library.domain.Reservation;
 
@@ -17,6 +19,8 @@ public class ReservationRepositoryExample
 		reserv.setRealDate(null);
 		
 		catalog.reservation().add(reserv);
+		
+		List<Reservation> reservwithdate = catalog.reservation().withReservationDate(null);
 	}
 
 }

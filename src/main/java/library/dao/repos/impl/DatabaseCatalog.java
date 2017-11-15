@@ -7,10 +7,13 @@ import library.dao.mappers.AddressMapper;
 import library.dao.mappers.AuthorMapper;
 import library.dao.mappers.BookMapper;
 import library.dao.mappers.PersonMapper;
+import library.dao.mappers.ReservationItemMapper;
+import library.dao.mappers.ReservationMapper;
 import library.dao.mappers.UserMapper;
 import library.dao.repos.IDatabaseCatalog;
 import library.dao.repos.IPersonRepository;
 import library.dao.repos.IRepository;
+import library.dao.repos.IReservationRepository;
 import library.domain.Address;
 import library.domain.Author;
 import library.domain.Book;
@@ -69,12 +72,22 @@ public class DatabaseCatalog implements IDatabaseCatalog{
 	
 	@Override
 	public IRepository<ReservationItem> reservationItems(){	
-		return null;
+		try {
+			return new ReservationItemRepository(connection, new ReservationItemMapper());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@Override
-	public IRepository<Reservation> reservation(){
-		return null;
+	public IReservationRepository reservation(){
+		try {
+			return new ReservationRepository(connection, new ReservationMapper());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 
