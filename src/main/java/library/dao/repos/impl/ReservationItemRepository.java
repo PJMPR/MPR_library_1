@@ -9,7 +9,7 @@ import library.domain.ReservationItem;
 public class ReservationItemRepository extends RepositoryBase<ReservationItem> 
 {
 	
-	public ReservationItemRepository(Connection connection, IMapper<ReservationItem> mapper) 
+	public ReservationItemRepository(Connection connection, IMapper<ReservationItem> mapper) throws SQLException 
 	{
 		super(connection, mapper);
 	}
