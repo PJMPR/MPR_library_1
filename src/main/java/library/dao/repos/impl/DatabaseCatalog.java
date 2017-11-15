@@ -10,6 +10,8 @@ import library.dao.repos.IRepository;
 import library.domain.Address;
 import library.domain.Author;
 import library.domain.Person;
+import library.domain.Reservation;
+import library.domain.ReservationItem;
 import library.domain.User;
 
 public class DatabaseCatalog implements IDatabaseCatalog{
@@ -40,6 +42,17 @@ public class DatabaseCatalog implements IDatabaseCatalog{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public IRepository<ReservationItem> reservationItems(){	
+		return null;
+	}
+	
+	@Override
+	public IRepository<Reservation> reservation(){
+		return null;
+	}
+	
 
 	@Override
 	public IRepository<User> users() {
