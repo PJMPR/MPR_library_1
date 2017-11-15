@@ -2,15 +2,17 @@ package library.daor.repos.examples;
 
 import java.sql.Connection;
 
-import library.dao.repos.AddressRepository;
-import library.dao.repos.PersonRepository;
+import library.dao.mappers.AddressMapper;
+import library.dao.mappers.AuthorMapper;
+import library.dao.repos.impl.AddressRepository;
+import library.dao.repos.impl.PersonRepository;
 import library.domain.Address;
 import library.domain.Person;
 
 public class AddressRepositoryExample {
 	public static void run(Connection connection){
 		
-    	AddressRepository repository = new AddressRepository(connection);
+    	AddressRepository repository = new AddressRepository(connection, new AddressMapper());
     	repository.createTable();
     	
     	Address address = new Address();

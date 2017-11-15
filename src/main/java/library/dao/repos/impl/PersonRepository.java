@@ -1,4 +1,4 @@
-package library.dao.repos;
+package library.dao.repos.impl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -8,7 +8,7 @@ import library.domain.Person;
 
 public class PersonRepository extends RepositoryBase<Person>{
 	
-	public PersonRepository(Connection connection, IMapper<Person> mapper){
+	public PersonRepository(Connection connection, IMapper<Person> mapper) throws SQLException{
 		super(connection, mapper);
 	}
 

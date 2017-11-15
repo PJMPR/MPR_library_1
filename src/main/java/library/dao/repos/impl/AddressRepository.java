@@ -1,4 +1,4 @@
-package library.dao.repos;
+package library.dao.repos.impl;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -67,7 +67,7 @@ public class AddressRepository extends RepositoryBase<Address> {
 	protected void setInsert(Address address) throws SQLException {
 		update.setString(1, address.getStreet());
 		update.setString(2, address.getCity());
-		update.setInt(3, address.getPostCode());
+		update.setString(3, address.getPostCode());
 		update.setString(4, address.getCountry());
 		update.setString(5, address.getHouseNumber());
 		update.setString(6, address.getLocalNumber());
