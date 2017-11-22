@@ -9,6 +9,7 @@ import java.util.List;
 
 import library.dao.mappers.IMapper;
 import library.dao.repos.IBookRepository;
+import library.dao.uow.IUnitOfWork;
 import library.domain.Book;
 
 public class BookRepository extends RepositoryBase<Book> implements IBookRepository {
@@ -20,8 +21,8 @@ public class BookRepository extends RepositoryBase<Book> implements IBookReposit
 	PreparedStatement selectByPublisher;
 	PreparedStatement selectByAvailability;
 	
-	public BookRepository(Connection connection, IMapper<Book> mapper) throws SQLException{
-			super(connection, mapper);
+	public BookRepository(Connection connection, IMapper<Book> mapper, IUnitOfWork uow) throws SQLException{
+			super(connection, mapper, uow);
 			selectByTitle = connection.prepareStatement(selectByTitleSql);
 			selectByPublisher = connection.prepareStatement(selectByPublisherSql);
 			selectByAvailability = connection.prepareStatement(selectByAvailabilitySql);

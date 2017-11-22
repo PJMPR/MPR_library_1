@@ -11,6 +11,7 @@ import java.util.List;
 
 import library.dao.mappers.IMapper;
 import library.dao.repos.IAuthorRepository;
+import library.dao.uow.IUnitOfWork;
 import library.domain.Author;
 import library.domain.Person;
 
@@ -19,8 +20,8 @@ public class AuthorRepository extends RepositoryBase<Author> implements IAuthorR
 	String slectByNameSql = "SELECT * FROM author WHERE name=?";
 	PreparedStatement selectByName;
 	
-	public AuthorRepository(Connection connection,IMapper<Author> mapper) throws SQLException{
-		super(connection,mapper);
+	public AuthorRepository(Connection connection,IMapper<Author> mapper, IUnitOfWork uow) throws SQLException{
+		super(connection,mapper, uow);
 		selectByName = connection.prepareStatement(slectByNameSql);
 	}
 

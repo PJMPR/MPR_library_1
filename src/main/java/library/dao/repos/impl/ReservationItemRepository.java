@@ -4,14 +4,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import library.dao.mappers.IMapper;
+import library.dao.uow.IUnitOfWork;
 import library.domain.ReservationItem;
 
 public class ReservationItemRepository extends RepositoryBase<ReservationItem> 
 {
 	
-	public ReservationItemRepository(Connection connection, IMapper<ReservationItem> mapper) throws SQLException 
+	public ReservationItemRepository(Connection connection, IMapper<ReservationItem> mapper, IUnitOfWork uow) throws SQLException 
 	{
-		super(connection, mapper);
+		super(connection, mapper, uow);
 	}
 	
 	@Override
