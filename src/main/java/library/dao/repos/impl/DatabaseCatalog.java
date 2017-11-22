@@ -38,7 +38,7 @@ public class DatabaseCatalog implements IDatabaseCatalog{
 	@Override
 	public IAddressRepository addresses() {
 		try {
-			return new AddressRepository(connection, new AddressMapper());
+			return new AddressRepository(connection, new AddressMapper(), uow);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -58,7 +58,7 @@ public class DatabaseCatalog implements IDatabaseCatalog{
 	@Override
 	public IAuthorRepository authors() {
 		try {
-			return new AuthorRepository(connection, new AuthorMapper());
+			return new AuthorRepository(connection, new AuthorMapper(), uow);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -68,7 +68,7 @@ public class DatabaseCatalog implements IDatabaseCatalog{
 	@Override
 	public IBookRepository books() {
 		try {
-			return new BookRepository(connection, new BookMapper());
+			return new BookRepository(connection, new BookMapper(), uow);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -78,7 +78,7 @@ public class DatabaseCatalog implements IDatabaseCatalog{
 	@Override
 	public IRepository<ReservationItem> reservationItems(){	
 		try {
-			return new ReservationItemRepository(connection, new ReservationItemMapper());
+			return new ReservationItemRepository(connection, new ReservationItemMapper(), uow);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -88,7 +88,7 @@ public class DatabaseCatalog implements IDatabaseCatalog{
 	@Override
 	public IReservationRepository reservation(){
 		try {
-			return new ReservationRepository(connection, new ReservationMapper());
+			return new ReservationRepository(connection, new ReservationMapper(), uow);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -99,7 +99,7 @@ public class DatabaseCatalog implements IDatabaseCatalog{
 	@Override
 	public IRepository<User> users() {
 		try {
-			return new UserRepository(connection, new UserMapper());
+			return new UserRepository(connection, new UserMapper(), uow);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;

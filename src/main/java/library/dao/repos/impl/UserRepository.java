@@ -4,12 +4,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import library.dao.mappers.IMapper;
+import library.dao.uow.IUnitOfWork;
 import library.domain.User;
 
 public class UserRepository extends RepositoryBase<User>{
 
-	public UserRepository(Connection connection, IMapper<User> mapper) throws SQLException{
-		super(connection, mapper);
+	public UserRepository(Connection connection, IMapper<User> mapper, IUnitOfWork uow) throws SQLException{
+		super(connection, mapper, uow);
 	}
 	
 	@Override

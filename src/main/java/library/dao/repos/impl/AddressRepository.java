@@ -9,6 +9,7 @@ import java.util.List;
 
 import library.dao.mappers.IMapper;
 import library.dao.repos.IAddressRepository;
+import library.dao.uow.IUnitOfWork;
 import library.domain.Address;
 import library.domain.Person;
 
@@ -17,8 +18,8 @@ public class AddressRepository extends RepositoryBase<Address> implements IAddre
 	PreparedStatement selectByPostCode;
 	String selectByCitySql="SELECT * FROM address WHERE city=?";
 	PreparedStatement selectByCity;
-	public AddressRepository(Connection connection, IMapper<Address> mapper) throws SQLException{
-		super(connection, mapper);
+	public AddressRepository(Connection connection, IMapper<Address> mapper, IUnitOfWork uow) throws SQLException{
+		super(connection, mapper, uow);
 		selectByCity=connection.prepareStatement(selectByCitySql);
 		selectByPostCode=connection.prepareStatement(selectByPostCodeSql);
 	}

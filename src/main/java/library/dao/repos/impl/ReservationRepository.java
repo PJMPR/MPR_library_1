@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import library.dao.mappers.IMapper;
 import library.dao.repos.IReservationRepository;
+import library.dao.uow.IUnitOfWork;
 import library.domain.Reservation;
 
 public class ReservationRepository extends RepositoryBase<Reservation> implements IReservationRepository {
@@ -20,9 +21,9 @@ public class ReservationRepository extends RepositoryBase<Reservation> implement
 	String selectByRetrievalDateSql = "SELECT * FROM reservation WHERE retrieval_date=?";
 	PreparedStatement selectByRetrievalDate;
 	
-	public ReservationRepository(Connection connection, IMapper<Reservation> mapper) throws SQLException
+	public ReservationRepository(Connection connection, IMapper<Reservation> mapper, IUnitOfWork uow) throws SQLException
 	{
-		super(connection, mapper);
+		super(connection, mapper, uow);
 		selectByReservationDate = connection.prepareStatement(selectByReservationDateSql);
 		selectByRetrievalDate = connection.prepareStatement(selectByRetrievalDateSql);
 	}
