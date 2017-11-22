@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import library.dao.repos.IDatabaseCatalog;
+import library.dao.uow.IUnitOfWork;
 import library.domain.Person;
 
 public class PersonRepositoryExample {
@@ -12,7 +13,6 @@ public class PersonRepositoryExample {
 		
 		
     	catalog.people().createTable();
-    	
     	Person jan = new Person();
     	jan.setName("JAN");
     	jan.setSurname("kowalski");

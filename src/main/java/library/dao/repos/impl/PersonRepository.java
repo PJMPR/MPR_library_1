@@ -63,6 +63,7 @@ public class PersonRepository extends RepositoryBase<Person> implements IPersonR
 	public List<Person> withName(String name) {
 		List<Person> result = new ArrayList<Person>();
 		try {
+			selectByName.setString(1, name);
 			ResultSet rs = selectByName.executeQuery();
 			while(rs.next()) result.add(mapper.map(rs));
 		} catch (SQLException e) {

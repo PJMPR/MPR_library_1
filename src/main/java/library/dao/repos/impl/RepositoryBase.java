@@ -37,9 +37,13 @@ public abstract class RepositoryBase<TEntity extends IHaveId>
 	protected RepositoryBase(Connection connection, IMapper<TEntity> mapper, IUnitOfWork uow) throws SQLException{
 		this.mapper = mapper;
 		this.connection = connection;
-		initStatements(connection);
 		ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
 		checkIfTableExists(rs);
+		if(!tableExists){
+			createTable();
+			uow.saveChanges();
+		}
+		initStatements(connection);
 		this.uow = uow;
 	}
 
