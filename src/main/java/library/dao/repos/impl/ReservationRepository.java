@@ -72,6 +72,7 @@ public class ReservationRepository extends RepositoryBase<Reservation> implement
 	public List<Reservation> withReservationDate(Date ReservationDate) {
 		List<Reservation> result = new ArrayList<Reservation>();
 		try {
+			selectByReservationDate.setDate(1, ReservationDate);
 			ResultSet rs = selectByReservationDate.executeQuery();
 			while(rs.next()) result.add(mapper.map(rs));
 		} catch (SQLException e) {
@@ -84,6 +85,7 @@ public class ReservationRepository extends RepositoryBase<Reservation> implement
 	public List<Reservation> withRetrievalDate(Date RetrievalDate) {
 		List<Reservation> result = new ArrayList<Reservation>();
 		try {
+			selectByRetrievalDate.setDate(1, RetrievalDate);
 			ResultSet rs = selectByRetrievalDate.executeQuery();
 			while(rs.next()) result.add(mapper.map(rs));
 		} catch (SQLException e) {
