@@ -28,7 +28,7 @@ public class App
     	BookRepositoryExample.run(connection, catalog);
     	ReservationRepositoryExample.run(connection,catalog);
     	ReservationItemRepositoryExample.run(connection,catalog);
-		//AuthorRepositoryExample.run(connection, catalog);
+		AuthorRepositoryExample.run(connection, catalog);
     	AddressRepositoryExample.run(connection, catalog);
     	//UserRepositoryExample.run(connection, catalog);
     	
