@@ -8,12 +8,7 @@ import library.dao.repos.IDatabaseCatalog;
 import library.dao.repos.impl.DatabaseCatalog;
 import library.dao.uow.IUnitOfWork;
 import library.dao.uow.UnitOfWork;
-import library.daor.repos.examples.AddressRepositoryExample;
-import library.daor.repos.examples.AuthorRepositoryExample;
-import library.daor.repos.examples.BookRepositoryExample;
 import library.daor.repos.examples.PersonRepositoryExample;
-import library.daor.repos.examples.ReservationItemRepositoryExample;
-import library.daor.repos.examples.ReservationRepositoryExample;
 import library.daor.repos.examples.UserRepositoryExample;
 
 public class App 

@@ -8,10 +8,9 @@ public class UserRepositoryExample {
 
 	public static void run(Connection connection, IDatabaseCatalog catalog){
 		
-    	catalog.users().createTable();
+    	//catalog.users().createTable();
     	
     	User jan = new User();
-    	jan.setId(1);
     	jan.setEmail("user@example.com");
     	jan.setLogin("Janusz");
     	jan.setPassword("janusz011");
