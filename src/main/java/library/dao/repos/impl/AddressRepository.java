@@ -34,7 +34,7 @@ public class AddressRepository extends RepositoryBase<Address> implements IAddre
 	@Override
 	protected String getInsertQuerySql() {
 		return ""
-				+ "INSERT INTO address (street,city,postCode,country,houseNumber,localNumber,phone) = (?,?,?,?,?,?,?)"
+				+ "INSERT INTO address (street,city,postCode,country,houseNumber,localNumber,phone) VALUES (?,?,?,?,?,?,?)"
 				+ "";
 	}
 
@@ -89,6 +89,7 @@ public class AddressRepository extends RepositoryBase<Address> implements IAddre
 	public List<Address> withPostCode(String postCode) {
 		List<Address> result = new ArrayList<Address>();
 		try {
+			selectByPostCode.setString(1, postCode);
 			ResultSet rs = selectByPostCode.executeQuery();
 			while(rs.next()) result.add(mapper.map(rs));
 		} catch (SQLException e) {
@@ -101,6 +102,7 @@ public class AddressRepository extends RepositoryBase<Address> implements IAddre
 	public List<Address> withCity(String city) {
 		List<Address> result = new ArrayList<Address>();
 		try {
+			selectByCity.setString(1, city);
 			ResultSet rs = selectByCity.executeQuery();
 			while(rs.next()) result.add(mapper.map(rs));
 		} catch (SQLException e) {
