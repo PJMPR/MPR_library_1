@@ -15,16 +15,13 @@ import library.domain.User;
 public class UserRepository extends RepositoryBase<User> implements IUserRepository{
 
 	String selectByLoginSql = "SELECT * FROM user WHERE login=?";
-	String selectByPasswordSql = "SELECT * FROM user WHERE password=?";
 	String selectByEmailSql = "SELECT * FROM user WHERE email=?";
 	PreparedStatement selectByLogin;
-	PreparedStatement selectByPassword;
 	PreparedStatement selectByEmail;
 	
 	public UserRepository(Connection connection, IMapper<User> mapper, IUnitOfWork uow) throws SQLException{
 		super(connection, mapper, uow);
 		selectByLogin = connection.prepareStatement(selectByLoginSql);
-		selectByPassword = connection.prepareStatement(selectByPasswordSql);
 		selectByEmail = connection.prepareStatement(selectByEmailSql);
 	}
 	
@@ -76,19 +73,8 @@ public class UserRepository extends RepositoryBase<User> implements IUserReposit
 	public List<User> withLogin(String login) {
 		List<User> result = new ArrayList<User>();
 		try {
+			selectByLogin.setString(1,login);
 			ResultSet rs = selectByLogin.executeQuery();
-			while(rs.next()) result.add(mapper.map(rs));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-
-	@Override
-	public List<User> withPassword(String password) {
-		List<User> result = new ArrayList<User>();
-		try {
-			ResultSet rs = selectByPassword.executeQuery();
 			while(rs.next()) result.add(mapper.map(rs));
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -100,6 +86,7 @@ public class UserRepository extends RepositoryBase<User> implements IUserReposit
 	public List<User> withEmail(String email) {
 		List<User> result = new ArrayList<User>();
 		try {
+			selectByEmail.setString(1, email);
 			ResultSet rs = selectByEmail.executeQuery();
 			while(rs.next()) result.add(mapper.map(rs));
 		} catch (SQLException e) {
