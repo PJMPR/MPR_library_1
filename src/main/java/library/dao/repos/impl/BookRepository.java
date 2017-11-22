@@ -52,11 +52,12 @@ public class BookRepository extends RepositoryBase<Book> implements IBookReposit
 	
 	@Override
 	protected void setUpdate(Book book) throws SQLException {
-		update.setString(1, book.getTitle());
-		update.setString(2, book.getPublisher());
-		update.setInt(3, book.getYear());
-		update.setBoolean(4, book.isAvailable());
-		update.setInt(5, book.getId());
+		update.setInt(1, book.getId());
+		update.setString(2, book.getTitle());
+		update.setString(3, book.getPublisher());
+		update.setInt(4, book.getYear());
+		update.setBoolean(5, book.isAvailable());
+	
 	}
 	
 	@Override
@@ -69,13 +70,14 @@ public class BookRepository extends RepositoryBase<Book> implements IBookReposit
 	
 	@Override
 	protected String getTableName() {
-		return "person";
+		return "book";
 	}
 
 	@Override
 	public List<Book> withTitle(String title) {
 		List<Book> result = new ArrayList<Book>();
 		try {
+			selectByTitle.setString(1, title);
 			ResultSet rs = selectByTitle.executeQuery();
 			while(rs.next()) result.add(mapper.map(rs));
 		} catch (SQLException e) {
@@ -88,6 +90,7 @@ public class BookRepository extends RepositoryBase<Book> implements IBookReposit
 	public List<Book> withPublisher(String publisher) {
 		List<Book> result = new ArrayList<Book>();
 		try {
+			selectByPublisher.setString(1, publisher);
 			ResultSet rs = selectByPublisher.executeQuery();
 			while(rs.next()) result.add(mapper.map(rs));
 		} catch (SQLException e) {
@@ -100,6 +103,7 @@ public class BookRepository extends RepositoryBase<Book> implements IBookReposit
 	public List<Book> withAvailability(boolean isAvailable) {
 		List<Book> result = new ArrayList<Book>();
 		try {
+			selectByAvailability.setBoolean(1, isAvailable);
 			ResultSet rs = selectByAvailability.executeQuery();
 			while(rs.next()) result.add(mapper.map(rs));
 		} catch (SQLException e) {

@@ -23,8 +23,8 @@ public class BookRepositoryExample {
     	int lastId = catalog.books().lastId();
     	int count = catalog.books().count();
     	
-    	List<Book> booksWithTitle = catalog.books().withTitle("Titile");
-    	List<Book> booksWithPublisher = catalog.books().withPublisher("Publisher");
+    	List<Book> booksWithTitle = catalog.books().withTitle("title");
+    	List<Book> booksWithPublisher = catalog.books().withPublisher("publisher");
     	List<Book> booksWithAvailability = catalog.books().withAvailability(true);
     	
     	System.out.println(lastId + " " +  count);
