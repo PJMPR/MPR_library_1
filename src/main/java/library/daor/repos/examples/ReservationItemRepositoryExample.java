@@ -1,11 +1,10 @@
 package library.daor.repos.examples;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
-import library.dao.mappers.ReservationItemMapper;
 import library.dao.repos.IDatabaseCatalog;
-import library.dao.repos.impl.ReservationItemRepository;
+import library.domain.ReservationItem;
+
 
 public class ReservationItemRepositoryExample 
 {
@@ -13,6 +12,12 @@ public class ReservationItemRepositoryExample
 	public static void run(Connection connection, IDatabaseCatalog catalog) 
 	{
 		catalog.reservationItems().createTable();
+		
+		ReservationItem item = new ReservationItem();
+		item.setReservationId(1);
+		item.setBookId(12);
+		
+		catalog.reservationItems().add(item);
 	}
 
 }

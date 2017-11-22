@@ -24,7 +24,7 @@ public class AuthorRepositoryExample {
     	int lastId = catalog.authors().lastId();
     	int count = catalog.authors().count();
     	
-    	List<Author> daniele = catalog.authors().withName("daniel");
+    	List<Author> daniele = catalog.authors().withFirstName("daniel");
     	
     	System.out.println(lastId + " " +  count);
 		

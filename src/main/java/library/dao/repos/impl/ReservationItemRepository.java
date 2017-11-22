@@ -2,7 +2,6 @@ package library.dao.repos.impl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import library.dao.mappers.IMapper;
 import library.dao.uow.IUnitOfWork;
 import library.domain.ReservationItem;
@@ -17,13 +16,11 @@ public class ReservationItemRepository extends RepositoryBase<ReservationItem>
 	
 	@Override
 	protected String getUpdateQuerySql() {
-		// TODO Auto-generated method stub
-		return null;
+		return "UPDATE reservation_item SET (reservation_id, book_id) = (?,?)  WHERE id=?";
 	}
 	@Override
 	protected String getInsertQuerySql() {
-		// TODO Auto-generated method stub
-		return null;
+		return "INSERT INTO reservation_item (reservation_id, book_id) VALUES (?,?)";
 	}
 	@Override
 	protected String getTableName() {
@@ -48,8 +45,8 @@ public class ReservationItemRepository extends RepositoryBase<ReservationItem>
 
 	@Override
 	protected void setInsert(ReservationItem reservationItem) throws SQLException {
-		insert.setInt(1, reservationItem.getReservation().getId());
-		insert.setInt(2, reservationItem.getBook().getId());
+		insert.setInt(1, reservationItem.getReservationId());
+		insert.setInt(2, reservationItem.getBookId());
 	}
 	
 }
