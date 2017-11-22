@@ -11,7 +11,6 @@ public class UserRepositoryExample {
     	catalog.users().createTable();
     	
     	User jan = new User();
-    	jan.setId(1);
     	jan.setEmail("user@example.com");
     	jan.setLogin("Janusz");
     	jan.setPassword("janusz011");

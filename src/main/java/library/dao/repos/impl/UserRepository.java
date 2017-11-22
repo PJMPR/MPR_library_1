@@ -1,29 +1,44 @@
 package library.dao.repos.impl;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import library.dao.mappers.IMapper;
+import library.dao.repos.IUserRepository;
 import library.dao.uow.IUnitOfWork;
 import library.domain.User;
 
-public class UserRepository extends RepositoryBase<User>{
+public class UserRepository extends RepositoryBase<User> implements IUserRepository{
 
+	String selectByLoginSql = "SELECT * FROM user WHERE login=?";
+	String selectByPasswordSql = "SELECT * FROM user WHERE password=?";
+	String selectByEmailSql = "SELECT * FROM user WHERE email=?";
+	PreparedStatement selectByLogin;
+	PreparedStatement selectByPassword;
+	PreparedStatement selectByEmail;
+	
 	public UserRepository(Connection connection, IMapper<User> mapper, IUnitOfWork uow) throws SQLException{
 		super(connection, mapper, uow);
+		selectByLogin = connection.prepareStatement(selectByLoginSql);
+		selectByPassword = connection.prepareStatement(selectByPasswordSql);
+		selectByEmail = connection.prepareStatement(selectByEmailSql);
 	}
 	
 	@Override
 	protected String getUpdateQuerySql() {
 		return ""
-				+ "UPDATE user SET (id,email,login,password) = (?,?,?,?) WHERE id=?"
+				+ "UPDATE user SET (login,password, email) = (?,?,?) WHERE id=?"
 				+ "";
 	}
 	
 	@Override
 	protected String getInsertQuerySql() {
 		return ""
-				+ "INSERT INTO user(id,email,login,password) VALUES (?,?,?,?)"
+				+ "INSERT INTO user(login,password,email) VALUES (?,?,?)"
 				+ "";
 	}
 	
@@ -44,10 +59,10 @@ public class UserRepository extends RepositoryBase<User>{
 	
 	@Override
 	protected void setUpdate(User user) throws SQLException {
-		update.setInt(1, user.getId());
-		update.setString(2, user.getLogin());
-		update.setString(3, user.getPassword());
-		update.setString(4, user.getEmail());
+		update.setString(1, user.getLogin());
+		update.setString(2, user.getPassword());
+		update.setString(3, user.getEmail());
+		update.setInt(4, user.getId());
 	}
 	
 	@Override
@@ -55,5 +70,43 @@ public class UserRepository extends RepositoryBase<User>{
 		insert.setString(1, user.getLogin());
 		insert.setString(2, user.getPassword());
 		insert.setString(3, user.getEmail());
+	}
+
+	@Override
+	public List<User> withLogin(String login) {
+		List<User> result = new ArrayList<User>();
+		try {
+			ResultSet rs = selectByLogin.executeQuery();
+			while(rs.next()) result.add(mapper.map(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public List<User> withPassword(String password) {
+		List<User> result = new ArrayList<User>();
+		try {
+			ResultSet rs = selectByPassword.executeQuery();
+			while(rs.next()) result.add(mapper.map(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public List<User> withEmail(String email) {
+		List<User> result = new ArrayList<User>();
+		try {
+			ResultSet rs = selectByEmail.executeQuery();
+			while(rs.next()) result.add(mapper.map(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}	
+	
+	
 }
