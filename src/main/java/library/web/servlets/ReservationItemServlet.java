@@ -9,29 +9,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import library.dao.repos.IDatabaseCatalog;
-import library.dao.repos.impl.HsqlDbCatalogFactory;
-
-@WebServlet("/Demo")
-public class DemoServlet extends HttpServlet {
+@WebServlet("/ReservationItemServlet")
+public class ReservationItemServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 
-    public DemoServlet() {
+    public ReservationItemServlet() {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 
-		
-		IDatabaseCatalog library = new HsqlDbCatalogFactory().library();
-		
 		PrintWriter out = response.getWriter();
-		String name = request.getParameter("name");
-		if(name!=null && !name.isEmpty())
-			out.println("Hello " + name);
+		String reservationId = request.getParameter("reservationId");
+		String bookId = request.getParameter("bookId");
+		if(reservationId!=null && !reservationId.isEmpty())
+			out.println("Rezerwacja " + reservationId);
+		
+		if(bookId!=null && !reservationId.isEmpty())
+			out.println("Ksiazka " + bookId);
 		
 		out.println("Hello World From Servlet");
-		
 	}
-	
 }
