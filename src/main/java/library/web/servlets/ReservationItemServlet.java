@@ -44,7 +44,7 @@ public class ReservationItemServlet extends HttpServlet{
 			out.println("Ksiazka " + bookId);
 		
 		library.reservationItems().add(reservationItem);
-		
+		library.saveChanges();
 		out.println("Hello World From Servlet");
 	}
 }
