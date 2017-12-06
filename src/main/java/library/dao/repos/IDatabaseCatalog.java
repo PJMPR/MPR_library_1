@@ -15,4 +15,5 @@ public interface IDatabaseCatalog {
 	public IRepository<ReservationItem> reservationItems();
 	public IReservationRepository reservation();
 	public IRepository<User> users();
+	public void saveChanges();
 }

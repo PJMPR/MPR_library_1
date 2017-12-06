@@ -26,18 +26,19 @@ public class App
     	Connection connection = DriverManager.getConnection(url);
     	IUnitOfWork uow = new UnitOfWork(connection);
     	
-    	IDatabaseCatalog catalog = new DatabaseCatalog(connection, uow);
-    	
-    	//PersonRepositoryExample.run(connection,catalog);
-    	
-    	BookRepositoryExample.run(connection, catalog);
-    	ReservationRepositoryExample.run(connection,catalog);
-    	ReservationItemRepositoryExample.run(connection,catalog);
-		AuthorRepositoryExample.run(connection, catalog);
-    	AddressRepositoryExample.run(connection, catalog);
-    	//UserRepositoryExample.run(connection, catalog);
-    	
-    	uow.saveChanges();
-        connection.close();
+    	IDatabaseCatalog catalog;
+		catalog = new DatabaseCatalog(connection, uow);
+  	
+  	//PersonRepositoryExample.run(connection,catalog);
+  	
+  	BookRepositoryExample.run(connection, catalog);
+  	ReservationRepositoryExample.run(connection,catalog);
+  	ReservationItemRepositoryExample.run(connection,catalog);
+AuthorRepositoryExample.run(connection, catalog);
+  	AddressRepositoryExample.run(connection, catalog);
+  	//UserRepositoryExample.run(connection, catalog);
+  	
+  	uow.saveChanges();
+      connection.close();
     }
 }
