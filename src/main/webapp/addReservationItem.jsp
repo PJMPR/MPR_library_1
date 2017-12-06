@@ -8,8 +8,8 @@
 </head>
 <body>
 	<form action="ReservationItemServlet" method="get">
-		<label>Reservation Id: <input type="number" id="reservationId" name="reservationId"></label>
-		<label>Book Id: <input type="number" id="bookId" name="bookId"></label>
+		<label>Reservation Id: <input type="text" id="reservationId" name="reservationId"></label>
+		<label>Book Id: <input type="text" id="bookId" name="bookId"></label>
 		<br/>
 		
 		<button type="submit">send</button>
