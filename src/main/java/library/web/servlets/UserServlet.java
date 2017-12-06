@@ -2,7 +2,6 @@ package library.web.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,7 +27,6 @@ public class UserServlet extends HttpServlet {
 		
 		IDatabaseCatalog library = new HsqlDbCatalogFactory().library();
 		
-		
 		PrintWriter out = response.getWriter();
 		
 		String login = request.getParameter("login");
@@ -50,9 +48,6 @@ public class UserServlet extends HttpServlet {
     	user.setPassword(password);
     	
     	library.users().add(user);
-    	
-    
-		
 		  library.saveChanges();
 		
 	}
