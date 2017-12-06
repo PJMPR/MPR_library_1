@@ -40,6 +40,7 @@ public class BookServlet extends HttpServlet {
 		    book.setisAvailable(isAvailable);
 		    
 		    library.books().add(book);
+		    library.saveChanges();
 		    
 		    out.println("Title: " + book.getTitle());
 		    out.println("Publisher: " + book.getPublisher());
