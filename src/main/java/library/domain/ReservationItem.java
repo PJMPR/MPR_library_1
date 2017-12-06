@@ -2,7 +2,7 @@ package library.domain;
 
 
 /**
- * Created by Kuba on 04.10.2017.
+ * Created by Kupa on 04.10.2017. <3
  */
 public class ReservationItem implements IHaveId{
     private int id;
