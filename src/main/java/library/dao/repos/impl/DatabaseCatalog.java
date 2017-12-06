@@ -106,4 +106,9 @@ public class DatabaseCatalog implements IDatabaseCatalog{
 		}
 	}
 
+	@Override
+	public void saveChanges() {
+		uow.saveChanges();
+	}
+
 }
