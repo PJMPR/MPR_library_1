@@ -143,7 +143,7 @@ public abstract class RepositoryBase<TEntity extends IHaveId>
 		List<TEntity> result = new ArrayList<TEntity>();
 		try {
 			selectPage.setInt(1, offset);
-			selectPage.setInt(1, limit);
+			selectPage.setInt(2, limit);
 			ResultSet rs = selectPage.executeQuery();
 			while(rs.next()){
 				result.add(mapper.map(rs));
