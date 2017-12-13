@@ -32,7 +32,8 @@ public class BookServlet extends HttpServlet {
 		if(title!=null && !title.isEmpty() && publisher!=null && !publisher.isEmpty() && String.valueOf(year)!=null && !String.valueOf(year).isEmpty())
 		{
 			IDatabaseCatalog library = new HsqlDbCatalogFactory().library();
-		    	
+			
+			
 		    Book book = new Book();
 		    book.setTitle(title);
 		    book.setPublisher(publisher);
@@ -48,6 +49,10 @@ public class BookServlet extends HttpServlet {
 		    out.println("Available: " + book.isAvailable());
 
 			out.println("Added book to db");
+			
+			
+			
+			
 		}
 	}
 }
