@@ -11,8 +11,8 @@ public class UserMapper implements IMapper<User> {
 	public User map(ResultSet rs) throws SQLException {
 		User p = new User();
 		p.setId(rs.getInt("id"));
-		p.setLogin(rs.getString("user"));
-		p.setEmail(rs.getString("user@example.com"));
+		p.setLogin(rs.getString("login"));
+		p.setEmail(rs.getString("email"));
 		p.setPassword(rs.getString("password"));
 		return p;
 	}
