@@ -139,10 +139,10 @@ public abstract class RepositoryBase<TEntity extends IHaveId>
 	}
 	
 
-	public List<TEntity> getPage(int offset, int limit){
+	public List<TEntity> getPage(int page, int limit){
 		List<TEntity> result = new ArrayList<TEntity>();
 		try {
-			selectPage.setInt(1, offset);
+			selectPage.setInt(1, (page-1)*limit);
 			selectPage.setInt(2, limit);
 			ResultSet rs = selectPage.executeQuery();
 			while(rs.next()){

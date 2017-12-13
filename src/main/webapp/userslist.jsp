@@ -17,7 +17,7 @@
 	IDatabaseCatalog library = new HsqlDbCatalogFactory().library();
 	for(User u: library.users().getPage(1, 10)){%>
 		<li><%=u.getLogin()%></li>		
-	<% 
+	<%
 	}
 	%>
 </ul>
