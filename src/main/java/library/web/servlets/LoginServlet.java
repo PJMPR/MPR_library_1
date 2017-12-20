@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import library.dao.repos.IDatabaseCatalog;
 import library.dao.repos.impl.HsqlDbCatalogFactory;
 import library.domain.User;
+import library.web.SessionConstants;
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -49,8 +50,8 @@ public class LoginServlet extends HttpServlet {
 				User u = new User();
 				u=listUser.get(0);
 				if(u.getPassword().equals(password)){
-					request.getSession().setAttribute("loggedUser", u);
-					response.sendRedirect("/index.html");
+					request.getSession().setAttribute(SessionConstants.LoggedUser, u);
+					response.sendRedirect("/logOut.html");
 				}else{
 					out.println("Bad password.");
 					

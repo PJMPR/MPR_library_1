@@ -32,7 +32,7 @@ public class AddressServlet extends HttpServlet {
 		address.setStreet(request.getParameter("street"));
 		IDatabaseCatalog library = new HsqlDbCatalogFactory().library();
 		library.addresses().add(address);
-		
+		 library.saveChanges();
 		
 		
 	}
