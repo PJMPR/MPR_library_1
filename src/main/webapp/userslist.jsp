@@ -14,12 +14,16 @@
 <body>
 	<ul>
 	<%
+	int numberPage=Integer.valueOf(request.getParameter("numberPage"));
 	IDatabaseCatalog library = new HsqlDbCatalogFactory().library();
-	for(User u: library.users().getPage(1, 10)){%>
+	for(User u: library.users().getPage(numberPage, 2)){%>
 		<li><%=u.getLogin()%></li>		
 	<% 
 	}
 	%>
 </ul>
+
+	<a href="/userslist.jsp?numberPage=<%=++numberPage%>">Next</a>	
+
 </body>
 </html>

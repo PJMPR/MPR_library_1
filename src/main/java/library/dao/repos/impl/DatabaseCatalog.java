@@ -17,6 +17,7 @@ import library.dao.repos.IDatabaseCatalog;
 import library.dao.repos.IPersonRepository;
 import library.dao.repos.IRepository;
 import library.dao.repos.IReservationRepository;
+import library.dao.repos.IUserRepository;
 import library.dao.uow.IUnitOfWork;
 import library.dao.uow.UnitOfWork;
 import library.domain.Address;
@@ -97,7 +98,7 @@ public class DatabaseCatalog implements IDatabaseCatalog{
 	
 
 	@Override
-	public IRepository<User> users() {
+	public IUserRepository users() {
 		try {
 			return new UserRepository(connection, new UserMapper(), uow);
 		} catch (SQLException e) {
