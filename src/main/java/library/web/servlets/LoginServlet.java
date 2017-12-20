@@ -49,6 +49,7 @@ public class LoginServlet extends HttpServlet {
 				User u = new User();
 				u=listUser.get(0);
 				if(u.getPassword().equals(password)){
+					request.getSession().setAttribute("loggedUser", u);
 					response.sendRedirect("/index.html");
 				}else{
 					out.println("Bad password.");
