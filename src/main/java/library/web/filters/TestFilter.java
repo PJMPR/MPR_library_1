@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import library.domain.User;
+import library.web.SessionConstants;
 
 @WebFilter("/test.html")
 public class TestFilter implements Filter{
@@ -34,7 +35,7 @@ public class TestFilter implements Filter{
 		HttpSession session = req.getSession();
 		
 		
-		User u = (User)session.getAttribute("loggedUser");
+		User u = (User)session.getAttribute(SessionConstants.LoggedUser);
 		if(u == null){
 			resp.sendRedirect("/Login.jsp");
 		}
