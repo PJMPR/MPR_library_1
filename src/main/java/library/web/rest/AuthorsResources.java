@@ -3,6 +3,8 @@ package library.web.rest;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -16,14 +18,19 @@ import library.domain.Author;
 @Stateless
 public class AuthorsResources {
 
+	@PersistenceContext
+	EntityManager mgr;
+	
 	IAuthorRepository _authors;
 	
+	public AuthorsResources(){
+	}
 	
 	@GET
 	@Path("/all")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Author> getAllAuthors(){
-		return _authors.getPage(1, 10);
+		return mgr.createNamedQuery("authors.all", Author.class).getResultList();
 		
 	}
 	
