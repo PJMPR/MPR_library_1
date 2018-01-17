@@ -22,8 +22,22 @@ public class Book implements IHaveId {
 	private String title;
 	private String publisher;
 	private int year;
+	@Column(name = "is_available")
 	private boolean isAvailable;
+	
+	@ManyToMany
+	private List<Reservation> reservations;
+	
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
 
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
+
+	public void setAvailable(boolean isAvailable) {
+		this.isAvailable = isAvailable;
 	@ManyToMany
 	private List<Author> authors;
 
