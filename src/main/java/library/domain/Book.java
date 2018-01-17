@@ -8,12 +8,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="book")
 public class Book implements IHaveId {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String title;
 	private String publisher;
@@ -34,6 +38,15 @@ public class Book implements IHaveId {
 
 	public void setAvailable(boolean isAvailable) {
 		this.isAvailable = isAvailable;
+	@ManyToMany
+	private List<Author> authors;
+
+	public List<Author> getAuthors() {
+		return authors;
+	}
+
+	public void setAuthors(List<Author> authors) {
+		this.authors = authors;
 	}
 
 	public int getId() {
