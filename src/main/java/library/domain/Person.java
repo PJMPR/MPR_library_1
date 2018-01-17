@@ -5,12 +5,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
 
 @Entity
-@NamedQuery(name = "persons.all", query="SELECT a FROM Person a")
+@NamedQueries({
+	@NamedQuery(name = "persons.all", query="SELECT p FROM Person p"),
+	@NamedQuery(name = "persons.id", query="SELECT p FROM Person p WHERE p.id=:id")
+})
 public class Person implements IHaveId{
 
 	
