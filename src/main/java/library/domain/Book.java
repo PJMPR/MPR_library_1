@@ -38,6 +38,7 @@ public class Book implements IHaveId {
 
 	public void setAvailable(boolean isAvailable) {
 		this.isAvailable = isAvailable;
+		}
 	@ManyToMany
 	private List<Author> authors;
 

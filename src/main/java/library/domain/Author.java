@@ -7,12 +7,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-@NamedQuery(name = "authors.all", query="SELECT a FROM Author a")
+@NamedQueries({
+	@NamedQuery(name = "authors.all", query="SELECT a FROM Author a"),
+	@NamedQuery(name = "authors.id", query="SELECT a FROM Author a WHERE a.id=:id")
+})
 public class Author implements IHaveId{
 	
 	@Id
