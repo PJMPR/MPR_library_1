@@ -1,7 +1,25 @@
 package library.domain;
 
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
+import library.web.rest.AdressResources;
+
+@Entity
+@NamedQueries({
+	@NamedQuery(name = "adresses.all", query="SELECT a FROM Adress a"),
+	@NamedQuery(name = "adresses.id", query="SELECT a FROM Adress a WHERE a.id=:id")
+})
 public class Address implements IHaveId{
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String street;
 	private String city;
@@ -14,6 +32,10 @@ public class Address implements IHaveId{
 	public Address() {
 		super();
 	}
+	
+
+	@ManyToMany(mappedBy="adresses")
+	private List<Person> adresses;
 
 	public Address(int id, String street, String city, String postCode, String country, String houseNumber, String localNumber, String phone) {
 		super();
