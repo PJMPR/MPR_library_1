@@ -9,10 +9,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
+
+@NamedQueries({
+	@NamedQuery(name = "books.all", query="SELECT a FROM book a"),
+	@NamedQuery(name = "books.id", query="SELECT a FROM book a WHERE a.id=:id")
+})
+
 @Table(name="book")
 public class Book implements IHaveId {
 	
